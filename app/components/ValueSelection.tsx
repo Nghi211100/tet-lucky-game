@@ -49,7 +49,7 @@ const ValueSelection = ({ setItems, spinning }: { setItems: Dispatch<SetStateAct
 
     return (
         <div>
-            <div className='flex gap-6 flex-wrap'>
+            <div className='flex gap-6 flex-wrap justify-evenly'>
                 {selectionItems.map((item, index) => (
                     <button disabled={spinning} className='shadow-2xl rounded-lg w-[calc(524px/3)] h-[calc(244px/3)] relative hover:scale-105 border-2 border-white cursor-pointer' key={item.imageUrl + index}
                         onClick={() => handleClick(item)}>
@@ -63,7 +63,7 @@ const ValueSelection = ({ setItems, spinning }: { setItems: Dispatch<SetStateAct
                 ))}
 
             </div>
-            <div className='flex gap-6 mt-6'>
+            <div className='flex gap-6 mt-6 justify-center'>
                 <button disabled={spinning}
                     className='hover:cursor-pointer hover:from-50% bg-radial from-40% to-100% from-red-500 to-yellow-400 text-yellow-400 font-bold text-lg border-2 border-white hover:bg-red-600 shadow-2xl px-4 py-2 w-max rounded-lg'
                     onClick={() => setItems([])}
