@@ -1,28 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 
 import Image from 'next/image';
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
-const Note = ({openNote, setOpenNote}: {openNote: boolean, setOpenNote: Dispatch<SetStateAction<boolean>>}) => {
-    const bgAudioRef = useRef<HTMLAudioElement | null>(null)
-
-    useEffect(() => {
-        bgAudioRef.current = new Audio('/audio/background.m4a')
-        bgAudioRef.current.loop = true
-        bgAudioRef.current.volume = 1
-    }, [])
-
-    const playBg = async () => {
-        const audio = bgAudioRef.current
-        if (!audio || !audio.paused) return
-
-        try {
-            audio.currentTime = 0
-            await audio.play()
-        } catch (e) {
-            console.log('BG audio blocked')
-        }
-    }
+const Note = ({openNote, setOpenNote, playBg}: {openNote: boolean, setOpenNote: Dispatch<SetStateAction<boolean>>, playBg: ()=> void}) => {
 
     if (!openNote) return <></>
 

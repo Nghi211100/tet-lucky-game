@@ -44,6 +44,7 @@ export function SpinWheel({
       const a = new Audio(src)
       a.volume = 1
       a.setAttribute('playsinline', 'true')
+      a.currentTime = 0
       a.muted = true
       return a
     }
