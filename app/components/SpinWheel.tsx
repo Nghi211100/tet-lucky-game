@@ -46,19 +46,6 @@ export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[]
     surprise.current.volume = 1
   }, [])
 
-
-  useEffect(() => {
-    if (fadeOut === true) {
-      if (baddest.current) baddest.current.currentTime = 0;
-      if (bad.current) bad.current.currentTime = 0;
-      if (fine.current) fine.current.currentTime = 0;
-      if (good.current) good.current.currentTime = 0;
-      if (well.current) well.current.currentTime = 0;
-      if (surprise.current) surprise.current.currentTime = 0;
-    }
-
-  }, [fadeOut]);
-
   useEffect(() => {
     const unlock = () => {
       if (!background.current) return

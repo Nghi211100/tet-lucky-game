@@ -19,7 +19,7 @@ const LuckySpin = () => {
   useEffect(() => {
     bgAudioRef.current = new Audio('/audio/background-sound.mp3')
     bgAudioRef.current.loop = true
-    bgAudioRef.current.volume = 0.5
+    bgAudioRef.current.volume = 0.3
   }, [])
 
   const playBg = async () => {
