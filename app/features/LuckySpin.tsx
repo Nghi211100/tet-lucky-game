@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { SpinWheel } from '../components/SpinWheel'
 import ValueSelection from '../components/ValueSelection'
 import Image from 'next/image'
@@ -11,19 +11,37 @@ export type IItemSpin = {
 }
 
 const LuckySpin = () => {
-
+  const bgAudioRef = useRef<HTMLAudioElement | null>(null)
   const [spinning, setSpinning] = useState(false)
   const [openNote, setOpenNote] = useState(true)
   const [items, setItem] = useState<IItemSpin[]>([]);
 
+  useEffect(() => {
+    bgAudioRef.current = new Audio('/audio/background-sound.mp3')
+    bgAudioRef.current.loop = true
+    bgAudioRef.current.volume = 0.5
+  }, [])
+
+  const playBg = async () => {
+    const audio = bgAudioRef.current
+    if (!audio) return
+
+    try {
+      audio.currentTime = 0
+      await audio.play()
+    } catch (e) {
+      console.log('BG audio blocked')
+    }
+  }
+  
   return (
     <div className='w-full md:flex justify-center items-center py-10 relative space-y-6'>
       <div className='md:w-1/2'><SpinWheel items={items} setSpinning={setSpinning} spinning={spinning} /></div>
       <div className='md:w-1/2'><ValueSelection setItems={setItem} spinning={spinning} /></div>
      
-      <div className='absolute top-10 right-10 h-6 w-6 bg-[url("/assets/info.png")] bg-cover bg-amber-500 rounded-full cursor-pointer' onClick={()=>setOpenNote(!openNote)}></div>
+      <div className='absolute top-10 right-10 h-6 w-6 bg-[url("/assets/info.png")] bg-cover bg-amber-500 rounded-full cursor-pointer z-999' onClick={()=>setOpenNote(!openNote)}></div>
       
-      {openNote && <div className='absolute inset-0 h-screen w-screen flex items-center justify-center shadow-2xl' onClick={() => setOpenNote(false)}>
+      {openNote && <div className='absolute inset-0 h-screen w-screen flex items-center justify-center shadow-2xl' onClick={() => {setOpenNote(false); playBg()}}>
         <div className='w-[95%] md:w-4/5 h-4/5 relative z-99 rounded-lg overflow-hidden flex items-center justify-center border border-amber-600'>
           <Image alt='banner' src={'/assets/guide-background.png'} fill objectFit='cover' className='z-0' />
           <div className='space-y-4 max-w-[90%] md:max-w-4/5 max-h-4/5 z-10 text-yellow-300 overflow-y-auto text-2xl md:text-3xl'>

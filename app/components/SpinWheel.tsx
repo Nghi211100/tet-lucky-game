@@ -29,17 +29,35 @@ export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[]
   useEffect(() => {
     baddest.current = new Audio('/audio/10k.m4a')
     baddest.current.volume = 1
+
     bad.current = new Audio('/audio/20k.m4a')
     bad.current.volume = 1
+
     fine.current = new Audio('/audio/50k.m4a')
     fine.current.volume = 1
+
     good.current = new Audio('/audio/100k.m4a')
     good.current.volume = 1
+
     well.current = new Audio('/audio/200k.m4a')
     well.current.volume = 1
+
     surprise.current = new Audio('/audio/500k.m4a')
     surprise.current.volume = 1
   }, [])
+
+
+  useEffect(() => {
+    if (fadeOut === false) {
+      if (baddest.current) baddest.current.currentTime = 0;
+      if (bad.current) bad.current.currentTime = 0;
+      if (fine.current) fine.current.currentTime = 0;
+      if (good.current) good.current.currentTime = 0;
+      if (well.current) well.current.currentTime = 0;
+      if (surprise.current) surprise.current.currentTime = 0;
+    }
+
+  }, [fadeOut]);
 
   useEffect(() => {
     const unlock = () => {
@@ -113,31 +131,34 @@ export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[]
       setSpinning(false)
     }, 4600)
     setTimeout(() => {
-      if (Number(shuffleItems[index].value) === 10) {
+      const newResult = shuffleItems[index];
+      setIsOpenResult(true)
+      setResult(newResult)
+
+      if (Number(newResult.value) === 10) {
         baddest.current?.play()
       }
 
-      if (Number(shuffleItems[index].value) === 20) {
+      if (Number(newResult.value) === 20) {
         bad.current?.play()
       }
 
-      if (Number(shuffleItems[index].value) == 50) {
+      if (Number(newResult.value) == 50) {
         fine.current?.play()
       }
 
-      if (Number(shuffleItems[index].value) === 100) {
+      if (Number(newResult.value) === 100) {
         good.current?.play()
       }
 
-      if (Number(shuffleItems[index].value) === 200) {
+      if (Number(newResult.value) === 200) {
         well.current?.play()
       }
 
-      if (Number(shuffleItems[index].value) === 500) {
+      if (Number(newResult.value) === 500) {
         surprise.current?.play()
       }
-      setIsOpenResult(true)
-      setResult(shuffleItems[index])
+
       // auto hide after 3s
       setFadeOut(false)
       setShowFireworks(true)
@@ -145,6 +166,7 @@ export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[]
       // start fade out after 3s
       setTimeout(() => {
         setFadeOut(true)
+
       }, 3000)
 
       // fully hide after fade animation
@@ -267,7 +289,6 @@ export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[]
   return (
     <>
       <div className="relative flex flex-col items-center justify-center z-10">
-        <audio ref={background} src="/audio/background-sound.mp3" preload="auto" loop />
         {/* Pointer */}
         <div className={`w-[30px] h-[40px] bg-[url('/assets/moc.png')] bg-contain bg-no-repeat absolute top-0 z-10 ${spinning ? 'pointer-wiggle' : ''}`} />
 
