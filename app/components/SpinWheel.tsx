@@ -29,6 +29,7 @@ export function SpinWheel({
   )
 
   // ---------- AUDIO (iOS SAFE) ----------
+  const cry = useRef<HTMLAudioElement | null>(null)
   const baddest = useRef<HTMLAudioElement | null>(null)
   const bad = useRef<HTMLAudioElement | null>(null)
   const fine = useRef<HTMLAudioElement | null>(null)
@@ -50,6 +51,7 @@ export function SpinWheel({
       return a
     }
 
+    cry.current = create('/audio/5k.m4a')
     baddest.current = create('/audio/10k.m4a')
     bad.current = create('/audio/20k.m4a')
     fine.current = create('/audio/50k.m4a')
@@ -57,7 +59,7 @@ export function SpinWheel({
     well.current = create('/audio/200k.m4a')
     surprise.current = create('/audio/500k.m4a')
 
-    const all = [baddest, bad, fine, good, well, surprise]
+    const all = [baddest, bad, fine, good, well, surprise, cry]
 
     // silent warm-up (required for iOS)
     all.forEach(ref => {
@@ -89,6 +91,7 @@ export function SpinWheel({
       ref.current.play().catch(() => {})
     }
 
+    if (value === 5) play(cry as React.RefObject<HTMLAudioElement>)
     if (value === 10) play(baddest as React.RefObject<HTMLAudioElement>)
     if (value === 20) play(bad as React.RefObject<HTMLAudioElement>)
     if (value === 50) play(fine as React.RefObject<HTMLAudioElement>)
@@ -176,10 +179,10 @@ export function SpinWheel({
         />
 
         <div className="md:hidden block">
-          <Wheel items={items} size={370} wheelRef={wheelRef} wheelRefMobile={wheelRefMobile} mobile/>
+          <Wheel items={shuffleItems} size={370} wheelRef={wheelRef} wheelRefMobile={wheelRefMobile} mobile/>
         </div>
         <div className="md:block hidden">
-          <Wheel items={items} size={600} wheelRef={wheelRef} wheelRefMobile={wheelRefMobile} />
+          <Wheel items={shuffleItems} size={600} wheelRef={wheelRef} wheelRefMobile={wheelRefMobile} />
         </div>
 
         <button
