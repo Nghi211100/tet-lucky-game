@@ -1,23 +1,33 @@
+'use client'
+
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
-import { IItemSpin } from '../features/LuckySpin'
 import Image from 'next/image'
+import { IItemSpin } from '../features/LuckySpin'
 import { shuffleAvoidAdjacent } from '../help'
 import Fireworks from './Fireworks'
 
-export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[], spinning: boolean, setSpinning: Dispatch<SetStateAction<boolean>> }) {
+export function SpinWheel({
+  items,
+  spinning,
+  setSpinning,
+}: {
+  items: IItemSpin[]
+  spinning: boolean
+  setSpinning: Dispatch<SetStateAction<boolean>>
+}) {
   const wheelRef = useRef<HTMLDivElement>(null)
-  const wheelRefMobile = useRef<HTMLDivElement>(null);
+  const wheelRefMobile = useRef<HTMLDivElement>(null)
+
   const [showFireworks, setShowFireworks] = useState(false)
   const [fadeOut, setFadeOut] = useState(false)
-
   const [currentRotation, setCurrentRotation] = useState(0)
-
   const [isOpenResult, setIsOpenResult] = useState(false)
-
   const [result, setResult] = useState<IItemSpin | null>(null)
+  const [shuffleItems, setShuffleItems] = useState<IItemSpin[]>(() =>
+    shuffleAvoidAdjacent(items)
+  )
 
-  const [shuffleItems, setShuffleItems] = useState<IItemSpin[]>(() => shuffleAvoidAdjacent(items))
-
+  // ---------- AUDIO (iOS SAFE) ----------
   const baddest = useRef<HTMLAudioElement | null>(null)
   const bad = useRef<HTMLAudioElement | null>(null)
   const fine = useRef<HTMLAudioElement | null>(null)
@@ -25,281 +35,209 @@ export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[]
   const well = useRef<HTMLAudioElement | null>(null)
   const surprise = useRef<HTMLAudioElement | null>(null)
 
-  useEffect(() => {
-    baddest.current = new Audio('/audio/10k.m4a')
-    baddest.current.volume = 1
+  const audioUnlocked = useRef(false)
 
-    bad.current = new Audio('/audio/20k.m4a')
-    bad.current.volume = 1
+  const unlockAudio = () => {
+    if (audioUnlocked.current) return
 
-    fine.current = new Audio('/audio/50k.m4a')
-    fine.current.volume = 1
-
-    good.current = new Audio('/audio/100k.m4a')
-    good.current.volume = 1
-
-    well.current = new Audio('/audio/200k.m4a')
-    well.current.volume = 1
-
-    surprise.current = new Audio('/audio/500k.m4a')
-    surprise.current.volume = 1
-  }, [])
-
-  
-  useEffect(() => {
-    if (fadeOut === true) {
-      if (baddest.current) baddest.current.currentTime = 0;
-      if (bad.current) bad.current.currentTime = 0;
-      if (fine.current) fine.current.currentTime = 0;
-      if (good.current) good.current.currentTime = 0;
-      if (well.current) well.current.currentTime = 0;
-      if (surprise.current) surprise.current.currentTime = 0;
+    const create = (src: string) => {
+      const a = new Audio(src)
+      a.volume = 1
+      a.setAttribute('playsinline', 'true')
+      return a
     }
 
-  }, [fadeOut]);
+    baddest.current = create('/audio/10k.m4a')
+    bad.current = create('/audio/20k.m4a')
+    fine.current = create('/audio/50k.m4a')
+    good.current = create('/audio/100k.m4a')
+    well.current = create('/audio/200k.m4a')
+    surprise.current = create('/audio/500k.m4a')
 
-  useEffect(()=>{
-    if(result) {
-      if (baddest.current && Number(result.value) === 10) {
-        baddest.current.currentTime = 0
-         baddest.current.play()
+    const all = [baddest, bad, fine, good, well, surprise]
+
+    // silent warm-up (required for iOS)
+    all.forEach(ref => {
+      if (ref.current) {
+        ref.current.volume = 0
+        ref.current
+          .play()
+          .then(() => {
+            ref.current?.pause()
+            if (ref.current) {
+              ref.current.currentTime = 0
+              ref.current.volume = 1
+            }
+          })
+          .catch(() => {})
       }
-  
-      if (bad.current && Number(result.value) === 20) {
-        bad.current.currentTime = 0
-         bad.current.play()
-      }
-  
-      if (fine.current && Number(result.value) == 50) {
-        fine.current.currentTime = 0
-         fine.current.play()
-      }
-  
-      if (good.current && Number(result.value) === 100) {
-        good.current.currentTime = 0
-         good.current.play()
-      }
-  
-      if (well.current && Number(result.value) === 200) {
-        well.current.currentTime = 0
-         well.current.play()
-      }
-  
-      if (surprise.current && Number(result.value) === 500) {
-        surprise.current.currentTime = 0
-         surprise.current.play()
-      }
+    })
+
+    audioUnlocked.current = true
+  }
+
+  const playResultSound = (value: number) => {
+    const play = (ref: React.RefObject<HTMLAudioElement>) => {
+      if (!ref.current) return
+      ref.current.pause()
+      ref.current.currentTime = 0
+      ref.current.play().catch(() => {})
     }
-    
+
+    if (value === 10) play(baddest as React.RefObject<HTMLAudioElement>)
+    if (value === 20) play(bad as React.RefObject<HTMLAudioElement>)
+    if (value === 50) play(fine as React.RefObject<HTMLAudioElement>)
+    if (value === 100) play(good as React.RefObject<HTMLAudioElement>)
+    if (value === 200) play(well as React.RefObject<HTMLAudioElement>)
+    if (value === 500) play(surprise as React.RefObject<HTMLAudioElement>)
+  }
+
+  // ---------- EFFECTS ----------
+
+  useEffect(() => {
+    if (result) {
+      playResultSound(Number(result.value))
+    }
   }, [result])
 
   useEffect(() => {
     setShuffleItems(shuffleAvoidAdjacent(items))
   }, [items])
 
-  const spin = () => {
-    if (spinning) return
-    setSpinning(true)
-
-    const index = Math.floor(Math.random() * items.length)
-    const sliceAngle = 360 / items.length
-
-    // normalize current rotation (0–360)
-    const current = currentRotation % 360
-
-    // angle to center of selected slice
-    const targetSliceAngle = index * sliceAngle + sliceAngle
-
-    // pointer is at 0deg (top), wheel rotates clockwise
-    const rotateTo =
-      currentRotation +
-      360 * 5 + // full spins
-      (360 - targetSliceAngle - current) + (175 - items.length * 0.5)
-
-    if (wheelRef.current) {
-      wheelRef.current.style.transition =
-        'transform 5.5s cubic-bezier(0.08, 0.82, 0.17, 1)'
-      wheelRef.current.style.transform = `rotate(${rotateTo}deg)`
-    }
-    if (wheelRefMobile.current) {
-      wheelRefMobile.current.style.transition =
-        'transform 5.5s cubic-bezier(0.08, 0.82, 0.17, 1)'
-      wheelRefMobile.current.style.transform = `rotate(${rotateTo}deg)`
-    }
-
-    setCurrentRotation(rotateTo)
-
-    if (navigator.vibrate) {
-      navigator.vibrate([30, 20, 30])
-    }
-
-    setTimeout(() => {
-      setSpinning(false)
-    }, 4600)
-    setTimeout(async () => {
-      const newResult = shuffleItems[index];
-      setIsOpenResult(true)
-      setResult(newResult)
-
-      // auto hide after 3s
-      setFadeOut(false)
-      setShowFireworks(true)
-
-      // start fade out after 3s
-      setTimeout(() => {
-        setFadeOut(true)
-
-      }, 3000)
-
-      // fully hide after fade animation
-      setTimeout(() => {
-        setShowFireworks(false)
-      }, 3800) // 3000 + 800ms fade duration
-    }, 6000)
-  }
+  // ---------- LOGIC ----------
 
   function hasAtLeastThreeDifferentValues(items: IItemSpin[]): boolean {
     const uniqueValues = new Set(items.map(item => item.value))
     return uniqueValues.size >= 3
   }
 
-  const renderWheel = (size: number, mobile?: boolean) => {
-    if (mobile) {
-      return (
-        <div
-          className="relative rounded-full p-2 bg-[url('/assets/vq5.png')] bg-contain bg-no-repeat shadow-2xl overflow-hidden"
-          style={{ width: size + 16, height: size + 16 }}
-        >
-          {/* Wheel */}
-          <div
-            ref={wheelRefMobile}
-            className="relative rounded-full overflow-hidden bg-white"
-            style={{ width: size, height: size }}
-          >
-            {shuffleItems.map((item, i) => {
-              const sliceAngle = 360 / items.length
-              const rotation = i * sliceAngle - 90 // pointer at top
+  const spin = () => {
+    unlockAudio() // 🔑 IMPORTANT
 
-              const radius = size * 0.1 // distance from center (adjustable)
+    if (spinning) return
+    setSpinning(true)
 
-              return (
-                <div
-                  key={i}
-                  className="absolute left-[28.5%] top-[41.5%]"
-                  style={{
-                    transform: `
-                    rotate(${rotation}deg)
-                    translateY(-${radius}px)
-                  `,
-                    transformOrigin: 'center center',
-                  }}
-                >
-                  <div
-                    className="relative w-[160px] h-[62px] md:w-[260px] md:h-[105px] -translate-x-1/2 -translate-y-1/2"
-                    style={{
-                      transform: `rotate(${sliceAngle / 2}deg)`,
-                    }}
-                  >
-                    <Image
-                      alt="money"
-                      src={item.imageUrl}
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
-                </div>
-              )
-            })}
+    const index = Math.floor(Math.random() * items.length)
+    const sliceAngle = 360 / items.length
 
+    const current = currentRotation % 360
+    const targetSliceAngle = index * sliceAngle + sliceAngle
 
-          </div>
-        </div>
-      )
+    const rotateTo =
+      currentRotation +
+      360 * 5 +
+      (360 - targetSliceAngle - current) +
+      (175 - items.length * 0.5)
+
+    const applyTransform = (ref: React.RefObject<HTMLDivElement>) => {
+      if (!ref.current) return
+      ref.current.style.transition =
+        'transform 5.5s cubic-bezier(0.08, 0.82, 0.17, 1)'
+      ref.current.style.transform = `rotate(${rotateTo}deg)`
     }
-    return (
-      <div
-        className="relative rounded-full p-[10px] bg-[url('/assets/vq5.png')] bg-contain bg-no-repeat"
-        style={{ width: size + 20, height: size + 20 }}
-      >
-        {/* Wheel */}
-        <div
-          ref={wheelRef}
-          className="relative rounded-full overflow-hidden bg-white"
-          style={{ width: size, height: size }}
-        >
-          {shuffleItems.map((item, i) => {
-            const sliceAngle = 360 / items.length
-            const rotation = i * sliceAngle - 90 // pointer at top
 
-            const radius = size * 0.1 // distance from center (adjustable)
+    applyTransform(wheelRef as React.RefObject<HTMLDivElement>)
+    applyTransform(wheelRefMobile as React.RefObject<HTMLDivElement>)
 
-            return (
-              <div
-                key={i}
-                className="absolute left-[28.5%] top-[41.5%]"
-                style={{
-                  transform: `
-                  rotate(${rotation}deg)
-                  translateY(-${radius}px)
-                `,
-                  transformOrigin: 'center center',
-                }}
-              >
-                <div
-                  className="relative w-[170px] h-[60px] md:w-[260px] md:h-[105px] -translate-x-1/2 -translate-y-1/2"
-                  style={{
-                    transform: `rotate(${sliceAngle / 2}deg)`,
-                  }}
-                >
-                  <Image
-                    alt="money"
-                    src={item.imageUrl}
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-              </div>
-            )
-          })}
+    setCurrentRotation(rotateTo)
 
+    if (navigator.vibrate) navigator.vibrate([30, 20, 30])
 
-        </div>
-      </div>
-    )
+    setTimeout(() => setSpinning(false), 4600)
+
+    setTimeout(() => {
+      const newResult = shuffleItems[index]
+      setResult(newResult)
+      setIsOpenResult(true)
+
+      setFadeOut(false)
+      setShowFireworks(true)
+
+      setTimeout(() => setFadeOut(true), 3000)
+      setTimeout(() => setShowFireworks(false), 3800)
+    }, 6000)
   }
+
+  // ---------- UI ----------
+
+  const renderWheel = (size: number, mobile?: boolean) => (
+    <div
+      className="relative rounded-full p-2 bg-[url('/assets/vq5.png')] bg-contain bg-no-repeat shadow-2xl overflow-hidden"
+      style={{ width: size + 16, height: size + 16 }}
+    >
+      <div
+        ref={mobile ? wheelRefMobile : wheelRef}
+        className="relative rounded-full overflow-hidden bg-white"
+        style={{ width: size, height: size }}
+      >
+        {shuffleItems.map((item, i) => {
+          const sliceAngle = 360 / items.length
+          const rotation = i * sliceAngle - 90
+          const radius = size * 0.1
+
+          return (
+            <div
+              key={i}
+              className="absolute left-[28.5%] top-[41.5%]"
+              style={{
+                transform: `rotate(${rotation}deg) translateY(-${radius}px)`,
+                transformOrigin: 'center center',
+              }}
+            >
+              <div
+                className="relative w-[160px] h-[62px] md:w-[260px] md:h-[105px] -translate-x-1/2 -translate-y-1/2"
+                style={{ transform: `rotate(${sliceAngle / 2}deg)` }}
+              >
+                <Image
+                  alt="money"
+                  src={item.imageUrl}
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
 
   return (
     <>
       <div className="relative flex flex-col items-center justify-center z-10">
-        {/* Pointer */}
-        <div className={`w-[30px] h-[40px] bg-[url('/assets/moc.png')] bg-contain bg-no-repeat absolute top-0 z-10 ${spinning ? 'pointer-wiggle' : ''}`} />
+        <div
+          className={`w-[30px] h-[40px] bg-[url('/assets/moc.png')] bg-contain bg-no-repeat absolute top-0 z-10 ${
+            spinning ? 'pointer-wiggle' : ''
+          }`}
+        />
 
-        {/* Wheel Container */}
-        <div className='md:hidden block overflow-hidden'>
-          {renderWheel(370, true)}
-        </div>
-        <div className='md:block hidden'>
-          {renderWheel(600)}
-        </div>
+        <div className="md:hidden block">{renderWheel(370, true)}</div>
+        <div className="md:block hidden">{renderWheel(600)}</div>
 
-
-        {/* Center Button */}
-        < button
+        <button
           onClick={spin}
           disabled={spinning || items.length < 6 || !hasAtLeastThreeDifferentValues(items)}
-          className="transition-all duration-500 absolute inset-0 m-auto hover:cursor-pointer w-28 h-28 overflow-hidden p-1 rounded-full text-yellow-400 font-bold text-lg shadow-2xl  bg-[url('/assets/vq5.png')] bg-contain bg-no-repeat active:scale-95 disabled:opacity-60"
+          className="absolute inset-0 m-auto w-28 h-28 rounded-full bg-[url('/assets/vq5.png')] p-1 bg-contain bg-no-repeat active:scale-95 disabled:opacity-60"
         >
-          <div className=' hover:from-50% bg-radial from-40% to-100% from-red-500 to-yellow-400 w-full h-full rounded-full flex justify-center items-center'>Quay</div>
-        </button >
-      </div >
-      {/* Congratulation */}
+          <div className="cursor-pointer hover:from-30% bg-radial from-red-500 to-yellow-400 w-full h-full rounded-full flex items-center justify-center text-yellow-400 font-bold">
+            Quay
+          </div>
+        </button>
+      </div>
+
+      {/* Result modal */}
       <div
-        className={`transition-opacity bg-black/65 duration-1000 absolute inset-0 w-screen h-screen z-999 bg-cover px-8 py-6 ${isOpenResult ? 'opacity-100' : 'opacity-0'}`}
+        className={`transition-opacity bg-black/65 duration-1000 absolute inset-0 w-screen h-screen z-999 ${
+          isOpenResult ? 'opacity-100' : 'opacity-0'
+        }`}
         hidden={!isOpenResult}
-        onClick={() => { setResult(null); setIsOpenResult(false) }}
+        onClick={() => {
+          setResult(null)
+          setIsOpenResult(false)
+        }}
       >
-        <div className='flex w-full h-full items-center justify-center'>
-          <div className='relative h-1/2 w-full md:w-1/2 m-auto'>
+        <div className="flex w-full h-full items-center justify-center">
+          <div className="relative h-1/2 w-full md:w-1/2">
             <Image
               alt="money"
               src={result?.imageUrl || '/'}
@@ -309,6 +247,7 @@ export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[]
           </div>
         </div>
       </div>
+
       {showFireworks && <Fireworks show={showFireworks} fadeOut={fadeOut} />}
     </>
   )

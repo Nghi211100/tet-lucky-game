@@ -52,13 +52,13 @@ const ValueSelection = ({ setItems, spinning }: { setItems: Dispatch<SetStateAct
             </div>
             <div className='flex gap-6 mt-6 justify-center'>
                 <button disabled={spinning}
-                    className='hover:cursor-pointer hover:from-50% bg-radial from-40% to-100% from-red-500 to-yellow-400 text-yellow-400 font-bold text-lg border-2 border-white hover:bg-red-600 shadow-2xl px-4 py-2 w-max rounded-lg'
+                    className='hover:cursor-pointer hover:from-30% bg-radial from-red-500 to-yellow-400 text-yellow-400 font-bold text-lg border-2 border-white hover:bg-red-600 shadow-2xl px-4 py-2 w-max rounded-lg'
                     onClick={() => setItems([])}
                 >
                     Chọn lại
                 </button>
                 <button disabled={spinning}
-                    className='hover:cursor-pointer hover:from-50% bg-radial from-40% to-100% from-red-500 to-yellow-400 text-yellow-400 font-bold text-lg border-2 border-white hover:bg-red-600 shadow-2xl px-4 py-2 w-max rounded-lg'
+                    className='hover:cursor-pointer hover:from-30% bg-radial from-red-500 to-yellow-400 text-yellow-400 font-bold text-lg border-2 border-white hover:bg-red-600 shadow-2xl px-4 py-2 w-max rounded-lg'
                     onClick={() => setItems((pre: IItemSpin[]) => pre.slice(0, -1))}
                 >
                     Xóa bớt
