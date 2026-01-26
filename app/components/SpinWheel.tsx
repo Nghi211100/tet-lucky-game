@@ -48,7 +48,7 @@ export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[]
 
 
   useEffect(() => {
-    if (fadeOut === false) {
+    if (fadeOut === true) {
       if (baddest.current) baddest.current.currentTime = 0;
       if (bad.current) bad.current.currentTime = 0;
       if (fine.current) fine.current.currentTime = 0;
@@ -130,33 +130,39 @@ export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[]
     setTimeout(() => {
       setSpinning(false)
     }, 4600)
-    setTimeout(() => {
+    setTimeout(async () => {
       const newResult = shuffleItems[index];
       setIsOpenResult(true)
       setResult(newResult)
 
-      if (Number(newResult.value) === 10) {
-        baddest.current?.play()
+      if (baddest.current && Number(newResult.value) === 10) {
+        baddest.current.currentTime = 0
+        await baddest.current.play()
       }
 
-      if (Number(newResult.value) === 20) {
-        bad.current?.play()
+      if (bad.current && Number(newResult.value) === 20) {
+        bad.current.currentTime = 0
+        await bad.current.play()
       }
 
-      if (Number(newResult.value) == 50) {
-        fine.current?.play()
+      if (fine.current && Number(newResult.value) == 50) {
+        fine.current.currentTime = 0
+        await fine.current.play()
       }
 
-      if (Number(newResult.value) === 100) {
-        good.current?.play()
+      if (good.current && Number(newResult.value) === 100) {
+        good.current.currentTime = 0
+        await good.current.play()
       }
 
-      if (Number(newResult.value) === 200) {
-        well.current?.play()
+      if (well.current && Number(newResult.value) === 200) {
+        well.current.currentTime = 0
+        await well.current.play()
       }
 
-      if (Number(newResult.value) === 500) {
-        surprise.current?.play()
+      if (surprise.current && Number(newResult.value) === 500) {
+        surprise.current.currentTime = 0
+        await surprise.current.play()
       }
 
       // auto hide after 3s

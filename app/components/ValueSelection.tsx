@@ -30,19 +30,6 @@ const selectionItems: IItemSpin[] = [
 ]
 
 const ValueSelection = ({ setItems, spinning }: { setItems: Dispatch<SetStateAction<IItemSpin[]>>, spinning: boolean }) => {
-
-    // const valueTimes = (item: IItemSpin) => {
-    //     const valueCountMap: { [key: string]: number } = {
-    //         '500': 1,
-    //         '200': 2,
-    //         '100': 3,
-    //         '20': 3,
-    //         '10': 3
-    //     };
-    //     const count = valueCountMap[item.value] ?? 3;
-    //     return Array(count).fill(item) as IItemSpin[];
-    // }
-
     const handleClick = (item: IItemSpin) => {
         setItems((pre: IItemSpin[]) => [...pre, item])
     }
