@@ -8,7 +8,7 @@ const Note = ({openNote, setOpenNote, playBg}: {openNote: boolean, setOpenNote: 
     if (!openNote) return <></>
 
     return (
-        <div className='absolute inset-0 h-screen w-screen flex items-center justify-center shadow-2xl' onClick={() => { setOpenNote(false); playBg() }}>
+        <div className='absolute inset-0 h-screen w-screen flex items-center justify-center shadow-2xl z-99' onClick={() => { setOpenNote(false); playBg() }}>
             <div className='w-[95%] md:w-4/5 h-4/5 relative z-99 rounded-lg overflow-hidden flex items-center justify-center border border-amber-600'>
                 <Image alt='banner' src={'/assets/guide-background.png'} fill objectFit='cover' className='z-0' />
                 <div className='space-y-4 max-w-[90%] md:max-w-4/5 max-h-4/5 z-10 text-yellow-300 overflow-y-auto text-2xl md:text-3xl'>

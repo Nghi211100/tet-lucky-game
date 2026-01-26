@@ -68,7 +68,7 @@ export function SpinWheel({
             ref.current?.pause()
             if (ref.current) {
               ref.current.currentTime = 0
-              ref.current.muted = false
+              ref.current.muted = true
               ref.current.volume = 1
             }
           })
@@ -82,6 +82,7 @@ export function SpinWheel({
   const playResultSound = (value: number) => {
     const play = (ref: React.RefObject<HTMLAudioElement>) => {
       if (!ref.current) return
+      ref.current.muted = false
       ref.current.pause()
       ref.current.currentTime = 0
       ref.current.play().catch(() => {})
@@ -230,7 +231,7 @@ export function SpinWheel({
 
       {/* Result modal */}
       <div
-        className={`transition-opacity bg-black/65 duration-1000 absolute inset-0 w-screen h-screen z-999 ${
+        className={`transition-opacity bg-black/65 duration-1000 absolute inset-0 h-full w-full z-999 ${
           isOpenResult ? 'opacity-100' : 'opacity-0'
         }`}
         hidden={!isOpenResult}
