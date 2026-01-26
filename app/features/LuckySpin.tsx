@@ -17,7 +17,7 @@ const LuckySpin = () => {
   const [items, setItem] = useState<IItemSpin[]>([]);
 
   useEffect(() => {
-    bgAudioRef.current = new Audio('/audio/background-sound.mp3')
+    bgAudioRef.current = new Audio('/audio/background.m4a')
     bgAudioRef.current.loop = true
     bgAudioRef.current.volume = 0.3
   }, [])
