@@ -27,6 +27,10 @@ const selectionItems: IItemSpin[] = [
         value: '10',
         imageUrl: '/assets/10k.jpg',
     },
+    {
+        value: '5',
+        imageUrl: '/assets/5k.jpg',
+    },
 ]
 
 const ValueSelection = ({ setItems, spinning }: { setItems: Dispatch<SetStateAction<IItemSpin[]>>, spinning: boolean }) => {

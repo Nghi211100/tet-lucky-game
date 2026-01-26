@@ -28,3 +28,37 @@ body {
 .pointer-wiggle {
   animation: pointerWiggle 0.3s cubic-bezier(0.08, 0.82, 0.17, 1) infinite;
 }
+
+
+/* Width */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Track (background) */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    #6bf3ec 0%,
+    #e2f10e 50%
+  );
+
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background-clip: content-box;
+}
+
+/* Hover effect */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    #e02c2c,
+    #fffb00
+  );
+}
