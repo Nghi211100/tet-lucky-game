@@ -24,7 +24,6 @@ export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[]
   const good = useRef<HTMLAudioElement | null>(null)
   const well = useRef<HTMLAudioElement | null>(null)
   const surprise = useRef<HTMLAudioElement | null>(null)
-  const background = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
     baddest.current = new Audio('/audio/10k.m4a')
@@ -46,33 +45,40 @@ export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[]
     surprise.current.volume = 1
   }, [])
 
-  useEffect(() => {
-    const unlock = () => {
-      if (!background.current) return
-
-      background.current.volume = 0.5
-
-      background.current.play().then(() => {
-        console.log('Audio started')
-      }).catch(err => {
-        console.log('Play failed:', err)
-      })
-
-      window.removeEventListener('click', unlock)
-      window.removeEventListener('touchstart', unlock)
-      window.removeEventListener('keydown', unlock)
+  useEffect(()=>{
+    if(result) {
+      if (baddest.current && Number(result.value) === 10) {
+        baddest.current.currentTime = 0
+         baddest.current.play()
+      }
+  
+      if (bad.current && Number(result.value) === 20) {
+        bad.current.currentTime = 0
+         bad.current.play()
+      }
+  
+      if (fine.current && Number(result.value) == 50) {
+        fine.current.currentTime = 0
+         fine.current.play()
+      }
+  
+      if (good.current && Number(result.value) === 100) {
+        good.current.currentTime = 0
+         good.current.play()
+      }
+  
+      if (well.current && Number(result.value) === 200) {
+        well.current.currentTime = 0
+         well.current.play()
+      }
+  
+      if (surprise.current && Number(result.value) === 500) {
+        surprise.current.currentTime = 0
+         surprise.current.play()
+      }
     }
-
-    window.addEventListener('click', unlock)
-    window.addEventListener('touchstart', unlock)
-    window.addEventListener('keydown', unlock)
-
-    return () => {
-      window.removeEventListener('click', unlock)
-      window.removeEventListener('touchstart', unlock)
-      window.removeEventListener('keydown', unlock)
-    }
-  }, [])
+    
+  }, [result])
 
   useEffect(() => {
     setShuffleItems(shuffleAvoidAdjacent(items))
@@ -121,36 +127,6 @@ export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[]
       const newResult = shuffleItems[index];
       setIsOpenResult(true)
       setResult(newResult)
-
-      if (baddest.current && Number(newResult.value) === 10) {
-        baddest.current.currentTime = 0
-        await baddest.current.play()
-      }
-
-      if (bad.current && Number(newResult.value) === 20) {
-        bad.current.currentTime = 0
-        await bad.current.play()
-      }
-
-      if (fine.current && Number(newResult.value) == 50) {
-        fine.current.currentTime = 0
-        await fine.current.play()
-      }
-
-      if (good.current && Number(newResult.value) === 100) {
-        good.current.currentTime = 0
-        await good.current.play()
-      }
-
-      if (well.current && Number(newResult.value) === 200) {
-        well.current.currentTime = 0
-        await well.current.play()
-      }
-
-      if (surprise.current && Number(newResult.value) === 500) {
-        surprise.current.currentTime = 0
-        await surprise.current.play()
-      }
 
       // auto hide after 3s
       setFadeOut(false)
