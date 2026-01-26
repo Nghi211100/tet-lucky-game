@@ -1,16 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Dancing_Script } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const dancingScript = Dancing_Script({ subsets: ['vietnamese'], weight: '400' })
 
 export const metadata: Metadata = {
   title: "Quay Lì Xì May Mắn",
@@ -25,10 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link href='/favicon.jpg' rel="icon" type="image/svg+xml" />
+        <link href='/cat-favicon.png' rel="icon" type="image/svg+xml" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={dancingScript.className}
       >
         {children}
       </body>

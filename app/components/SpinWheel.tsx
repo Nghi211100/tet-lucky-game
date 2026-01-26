@@ -2,10 +2,13 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import { IItemSpin } from '../features/LuckySpin'
 import Image from 'next/image'
 import { shuffleAvoidAdjacent } from '../help'
+import Fireworks from './Fireworks'
 
 export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[], spinning: boolean, setSpinning: Dispatch<SetStateAction<boolean>> }) {
   const wheelRef = useRef<HTMLDivElement>(null)
   const wheelRefMobile = useRef<HTMLDivElement>(null);
+  const [showFireworks, setShowFireworks] = useState(false)
+  const [fadeOut, setFadeOut] = useState(false)
 
   const [currentRotation, setCurrentRotation] = useState(0)
 
@@ -87,7 +90,7 @@ export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[]
     const rotateTo =
       currentRotation +
       360 * 5 + // full spins
-      (360 - targetSliceAngle - current) + 170
+      (360 - targetSliceAngle - current) + (175 - items.length * 0.5)
 
     if (wheelRef.current) {
       wheelRef.current.style.transition =
@@ -97,7 +100,7 @@ export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[]
     if (wheelRefMobile.current) {
       wheelRefMobile.current.style.transition =
         'transform 5.5s cubic-bezier(0.08, 0.82, 0.17, 1)'
-        wheelRefMobile.current.style.transform = `rotate(${rotateTo}deg)`
+      wheelRefMobile.current.style.transform = `rotate(${rotateTo}deg)`
     }
 
     setCurrentRotation(rotateTo)
@@ -135,14 +138,32 @@ export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[]
       }
       setIsOpenResult(true)
       setResult(shuffleItems[index])
+      // auto hide after 3s
+      setFadeOut(false)
+      setShowFireworks(true)
+
+      // start fade out after 3s
+      setTimeout(() => {
+        setFadeOut(true)
+      }, 3000)
+
+      // fully hide after fade animation
+      setTimeout(() => {
+        setShowFireworks(false)
+      }, 3800) // 3000 + 800ms fade duration
     }, 6000)
+  }
+
+  function hasAtLeastThreeDifferentValues(items: IItemSpin[]): boolean {
+    const uniqueValues = new Set(items.map(item => item.value))
+    return uniqueValues.size >= 3
   }
 
   const renderWheel = (size: number, mobile?: boolean) => {
     if (mobile) {
       return (
         <div
-          className="relative rounded-full p-2 bg-[url('/assets/vq5.png')] bg-contain bg-no-repeat"
+          className="relative rounded-full p-2 bg-[url('/assets/vq5.png')] bg-contain bg-no-repeat shadow-2xl overflow-hidden"
           style={{ width: size + 16, height: size + 16 }}
         >
           {/* Wheel */}
@@ -246,13 +267,13 @@ export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[]
   return (
     <>
       <div className="relative flex flex-col items-center justify-center z-10">
-        <audio ref={background} src="/audio/background-sound.mp3" preload="auto" loop/>
+        <audio ref={background} src="/audio/background-sound.mp3" preload="auto" loop />
         {/* Pointer */}
         <div className={`w-[30px] h-[40px] bg-[url('/assets/moc.png')] bg-contain bg-no-repeat absolute top-0 z-10 ${spinning ? 'pointer-wiggle' : ''}`} />
 
         {/* Wheel Container */}
         <div className='md:hidden block overflow-hidden'>
-          {renderWheel(370,true)}
+          {renderWheel(370, true)}
         </div>
         <div className='md:block hidden'>
           {renderWheel(600)}
@@ -262,7 +283,7 @@ export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[]
         {/* Center Button */}
         < button
           onClick={spin}
-          disabled={spinning || items.length < 5}
+          disabled={spinning || items.length < 6 || !hasAtLeastThreeDifferentValues(items)}
           className="transition-all duration-500 absolute inset-0 m-auto hover:cursor-pointer w-28 h-28 overflow-hidden p-1 rounded-full text-yellow-400 font-bold text-lg shadow-2xl  bg-[url('/assets/vq5.png')] bg-contain bg-no-repeat active:scale-95 disabled:opacity-60"
         >
           <div className=' hover:from-50% bg-radial from-40% to-100% from-red-500 to-yellow-400 w-full h-full rounded-full flex justify-center items-center'>Quay</div>
@@ -285,6 +306,7 @@ export function SpinWheel({ items, spinning, setSpinning }: { items: IItemSpin[]
           </div>
         </div>
       </div>
+      {showFireworks && <Fireworks show={showFireworks} fadeOut={fadeOut} />}
     </>
   )
 }
