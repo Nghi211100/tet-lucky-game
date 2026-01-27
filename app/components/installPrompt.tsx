@@ -26,7 +26,7 @@ export default function InstallPrompt() {
   if (!canInstall) return null
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 bg-white p-4 rounded-xl shadow-xl z-50 flex justify-between items-center">
+    <div className="fixed bottom-4 left-4 right-4 bg-white p-4 rounded-xl shadow-xl z-50 flex justify-between items-center"  style={{fontFamily: 'sans-serif'}}>
       <div>
         <p className="font-bold">Install this app?</p>
         <p className="text-sm text-gray-500">Faster & works offline</p>
