@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import { UsePWAInstall } from '../hooks/pwa.hook'
 
