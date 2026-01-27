@@ -17,6 +17,7 @@ const LuckySpin = () => {
   
   const bgAudioRef = useRef<HTMLAudioElement | null>(null);
   const [muted, setMuted] = useState(true);
+  
 
   useEffect(() => {
       bgAudioRef.current = new Audio('/audio/background.m4a')
