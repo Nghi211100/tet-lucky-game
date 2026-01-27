@@ -12,7 +12,7 @@ export default function InstallPrompt() {
   // iPhone message
   if (isIOS) {
     return (
-      <div className="fixed bottom-4 left-4 right-4 bg-black text-white p-4 rounded-xl z-50">
+      <div className="fixed bottom-4 left-4 right-4 bg-black text-white p-4 rounded-xl z-50" style={{fontFamily: 'sans-serif'}}>
         <p className="font-bold">Install this app?</p>
         <p className="text-sm mt-1">Tap Share → Add to Home Screen</p>
         <button onClick={() => setOpen(false)} className="mt-2 text-gray-300">
