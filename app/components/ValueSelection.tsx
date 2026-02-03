@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { Dispatch, SetStateAction } from 'react'
 import { IItemSpin } from '../features/LuckySpin'
+import { toast } from 'react-toastify'
 
 const selectionItems: IItemSpin[] = [
     {
@@ -33,16 +34,21 @@ const selectionItems: IItemSpin[] = [
     },
 ]
 
-const ValueSelection = ({ setItems, spinning }: { setItems: Dispatch<SetStateAction<IItemSpin[]>>, spinning: boolean }) => {
+const ValueSelection = ({ items,setItems, spinning }: { items: IItemSpin[],setItems: Dispatch<SetStateAction<IItemSpin[]>>, spinning: boolean }) => {
     const handleClick = (item: IItemSpin) => {
-        setItems((pre: IItemSpin[]) => [...pre, item])
+        if(items.length<15){
+            setItems((pre: IItemSpin[]) => [...pre, item])
+        } else{
+            toast.info("Tối đa 15 phần thưởng thôi nha")
+        }
     }
 
     return (
-        <div>
+        <div className='bg-amber-200 border-red-400 border-2 rounded-lg shadow-lg py-6 px-2'>
+            <h3 className='text-center text-2xl md:text-4xl mb-6 text-red-500'>Chọn mệnh giá</h3>
             <div className='flex gap-6 flex-wrap justify-evenly'>
                 {selectionItems.map((item, index) => (
-                    <button disabled={spinning} className='shadow-2xl rounded-lg w-[calc(524px/3)] h-[calc(244px/3)] relative hover:scale-105 border-2 border-white cursor-pointer' key={item.imageUrl + index}
+                    <button disabled={spinning} className='shadow-2xl rounded-lg w-[calc(524px/3.3)] md:w-[calc(524px/3)] h-[calc(244px/3.3)] md:h-[calc(244px/3)] relative hover:scale-105 border-2 border-white cursor-pointer' key={item.imageUrl + index}
                         onClick={() => handleClick(item)}>
                         <Image
                             alt="money"

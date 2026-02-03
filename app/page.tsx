@@ -1,13 +1,21 @@
 import InstallPrompt from './components/installPrompt';
 import LuckySpin from './features/LuckySpin';
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[url('/assets/background.jpg')] bg-cover bg-bottom">
-      <main className="min-h-screen w-full flex items-center justify-center">
+    <div className="flex min-h-screen bg-[url('/assets/background.jpg')] bg-cover bg-bottom"> 
         <InstallPrompt />
         <LuckySpin />
-      </main>
+        <ToastContainer
+          position="top-center"
+          autoClose={2500}
+          hideProgressBar
+          newestOnTop
+          closeOnClick
+          pauseOnHover
+        />
     </div>
   );
 }

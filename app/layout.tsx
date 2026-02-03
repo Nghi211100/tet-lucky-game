@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Dancing_Script } from "next/font/google";
+import { AR_One_Sans } from "next/font/google";
 import "./globals.css";
 import RegisterSW from './providers/register-sw';
-const dancingScript = Dancing_Script({ subsets: ['vietnamese'], weight: '400' })
+const dancingScript = AR_One_Sans({ subsets: ['vietnamese'], weight: '400' })
 
 export const metadata: Metadata = {
   title: "Quay Lì Xì May Mắn",

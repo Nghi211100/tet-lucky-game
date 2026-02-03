@@ -1,11 +1,12 @@
 'use client'
 
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import { IItemSpin } from '../features/LuckySpin'
-import { shuffleAvoidAdjacent } from '../help'
+import { generateColors, shuffleAvoidAdjacent } from '../help'
 import Fireworks from './Fireworks'
 import Wheel from './Wheel'
+import { toast } from 'react-toastify'
 
 export function SpinWheel({
   items,
@@ -18,6 +19,7 @@ export function SpinWheel({
 }) {
   const wheelRef = useRef<HTMLDivElement>(null)
   const wheelRefMobile = useRef<HTMLDivElement>(null)
+  const [size, setSize] = useState(0);
 
   const [showFireworks, setShowFireworks] = useState(false)
   const [fadeOut, setFadeOut] = useState(false)
@@ -126,6 +128,7 @@ export function SpinWheel({
     setSpinning(true)
 
     const index = Math.floor(Math.random() * items.length)
+    
     const sliceAngle = 360 / items.length
 
     const current = currentRotation % 360
@@ -134,9 +137,8 @@ export function SpinWheel({
     const rotateTo =
       currentRotation +
       360 * 5 +
-      (360 - targetSliceAngle - current) +
-      (175 - items.length * 0.5)
-
+      (360 - targetSliceAngle - current) + (180 * (100 * 1/items.length)/100)
+    
     const applyTransform = (ref: React.RefObject<HTMLDivElement>) => {
       if (!ref.current) return
       ref.current.style.transition =
@@ -168,6 +170,37 @@ export function SpinWheel({
 
   // ---------- UI ----------
 
+  useEffect(()=>{
+    if(window.innerWidth)
+    setSize(window.innerWidth)
+  }, [])
+  
+  
+  const sliceColors = useMemo(() => {
+    const palette = ['#FBC02D', '#E53935', '#FB8C00'] // yellow, red, orange
+    return generateColors(items.length, palette)
+  }, [items.length]) 
+
+
+
+const handleSpinClick = () => {
+  if (spinning) {
+    toast.info('Vòng quay đang chạy rồi nha 🎡')
+    return
+  }
+
+  if (items.length < 6) {
+    toast.warning('Cần ít nhất 6 phần thưởng để quay')
+    return
+  }
+
+  if (!hasAtLeastThreeDifferentValues(items)) {
+    toast.error('Phải có ít nhất 3 mệnh giá khác nhau')
+    return
+  }
+
+  spin()
+}
 
   return (
     <>
@@ -179,15 +212,14 @@ export function SpinWheel({
         />
 
         <div className="md:hidden block">
-          <Wheel items={shuffleItems} size={370} wheelRef={wheelRef} wheelRefMobile={wheelRefMobile} mobile/>
+          <Wheel items={shuffleItems} size={size<500?size-64: 500} wheelRef={wheelRef} wheelRefMobile={wheelRefMobile} mobile sliceColors={sliceColors}/>
         </div>
         <div className="md:block hidden">
-          <Wheel items={shuffleItems} size={600} wheelRef={wheelRef} wheelRefMobile={wheelRefMobile} />
+          <Wheel items={shuffleItems} size={size<1400?(size/2)-64: 600} wheelRef={wheelRef} wheelRefMobile={wheelRefMobile} sliceColors={sliceColors}/>
         </div>
 
         <button
-          onClick={spin}
-          disabled={spinning || items.length < 6 || !hasAtLeastThreeDifferentValues(items)}
+          onClick={handleSpinClick}
           className="absolute inset-0 m-auto w-28 h-28 rounded-full bg-[url('/assets/vq5.png')] p-1 bg-contain bg-no-repeat active:scale-95 disabled:opacity-60"
         >
           <div className="cursor-pointer hover:from-30% bg-radial from-red-500 to-yellow-400 w-full h-full rounded-full flex items-center justify-center text-yellow-400 font-bold">

@@ -2,48 +2,107 @@ import Image from 'next/image'
 import { RefObject } from 'react'
 import { IItemSpin } from '../features/LuckySpin'
 
-const Wheel = (
-    { size, mobile, wheelRef, wheelRefMobile, items }:
-    { size: number, mobile?: boolean, wheelRef: RefObject<HTMLDivElement | null>, wheelRefMobile: RefObject<HTMLDivElement | null>, items: IItemSpin[] }) => (
-    <div
-        className="relative rounded-full p-2 bg-[url('/assets/vq5.png')] bg-contain bg-no-repeat shadow-2xl overflow-hidden"
-        style={{ width: size + 16, height: size + 16 }}
-    >
-        <div
-            ref={mobile ? wheelRefMobile : wheelRef}
-            className="relative rounded-full overflow-hidden bg-white"
-            style={{ width: size, height: size }}
-        >
-            {items.map((item, i) => {
-                const sliceAngle = 360 / items.length
-                const rotation = i * sliceAngle - 90
-                const radius = size * 0.1
+const Wheel = ({
+  size,
+  mobile,
+  wheelRef,
+  wheelRefMobile,
+  items,
+  sliceColors
+}: {
+  size: number
+  mobile?: boolean
+  wheelRef: RefObject<HTMLDivElement | null>
+  wheelRefMobile: RefObject<HTMLDivElement | null>
+  items: IItemSpin[]
+  sliceColors: string[]
+}) => {
+  const sliceAngle = 360 / items.length
 
-                return (
-                    <div
-                        key={i}
-                        className="absolute left-[28.5%] top-[41.5%]"
-                        style={{
-                            transform: `rotate(${rotation}deg) translateY(-${radius}px)`,
-                            transformOrigin: 'center center',
-                        }}
+  const imageWidth = Math.min(200,Math.max(120, sliceAngle * 2))
+  const imageHeight = imageWidth * 0.66
+
+  const background = `conic-gradient(
+      ${sliceColors
+        .map((color, i) => {
+            const start = i * sliceAngle
+            const end = (i + 1) * sliceAngle
+            return `${color} ${start}deg ${end}deg`
+          })
+          .join(',')}
+      )`      
+
+  return (
+    <div
+      className="relative rounded-full p-2 bg-[url('/assets/vq5.png')] bg-contain bg-no-repeat shadow-2xl"
+      style={{ width: size + 16, height: size + 16 }}
+    >
+      {/* ROTATING WHEEL */}
+      <div
+        ref={mobile ? wheelRefMobile : wheelRef}
+        className="relative rounded-full overflow-hidden"
+        style={{
+          width: size,
+          height: size,
+          background,
+        }}
+      >
+        {/* ITEMS */}
+        {items.map((item, i) => {
+          const angle = i * sliceAngle + sliceAngle / 2
+
+          return (
+            <div
+              key={i}
+              className="absolute inset-0 flex justify-center"
+              style={{
+                transform: `rotate(${angle}deg)`,
+              }}
+            >
+              <div
+                className="relative mt-8 md:mt-12"
+              >
+                <div
+                    className="relative rotate-90 hidden md:block"
+                    style={{
+                        width: `${imageWidth}px`,
+                        height: `${imageHeight}px`,
+                    }}
                     >
-                        <div
-                            className="relative w-[160px] h-[62px] md:w-[260px] md:h-[105px] -translate-x-1/2 -translate-y-1/2"
-                            style={{ transform: `rotate(${sliceAngle / 2}deg)` }}
-                        >
-                            <Image
-                                alt="money"
-                                src={item.imageUrl}
-                                fill
-                                className="object-contain"
-                            />
-                        </div>
-                    </div>
-                )
-            })}
+                    <Image
+                        src={item.imageUrl}
+                        alt="reward"
+                        fill
+                        className="object-contain"
+                    />
+                </div>
+                <div
+                    className="relative rotate-90 block md:hidden"
+                    style={{
+                        width: `${imageWidth/2}px`,
+                        height: `${imageHeight/2}px`,
+                    }}
+                    >
+                    <Image
+                        src={item.imageUrl}
+                        alt="reward"
+                        fill
+                        className="object-contain"
+                    />
+                </div>
+              </div>
+            </div>
+          )
+        })}
+
+        {/* CENTER */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="w-20 h-20 rounded-full bg-linear-to-br from-yellow-400 to-red-500 flex items-center justify-center text-white font-bold shadow-xl"> 
+          </div>
         </div>
+      </div>
     </div>
-)
+  )
+}
 
 export default Wheel

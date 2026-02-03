@@ -3,12 +3,12 @@
 import Image from 'next/image';
 import { Dispatch, SetStateAction } from 'react';
 
-const Note = ({openNote, setOpenNote, playBg}: {openNote: boolean, setOpenNote: Dispatch<SetStateAction<boolean>>, playBg: ()=> void}) => {
+const Note = ({openNote, setOpenNote, muteBg}: {openNote: boolean, setOpenNote: Dispatch<SetStateAction<boolean>>, muteBg: ()=> void}) => {
 
     if (!openNote) return <></>
 
     return (
-        <div className='absolute inset-0 h-screen w-screen flex items-center justify-center shadow-2xl z-99' onClick={() => { setOpenNote(false); playBg() }}>
+        <div className='absolute inset-0 h-screen w-screen flex items-center justify-center shadow-2xl z-99 over' onClick={() => { setOpenNote(false); muteBg() }}>
             <div className='w-[95%] md:w-4/5 h-4/5 relative z-99 rounded-lg overflow-hidden flex items-center justify-center border border-amber-600'>
                 <Image alt='banner' src={'/assets/guide-background.png'} fill objectFit='cover' className='z-0' />
                 <div className='space-y-4 max-w-[90%] md:max-w-4/5 max-h-4/5 z-10 text-yellow-300 overflow-y-auto text-2xl md:text-3xl'>
@@ -16,7 +16,7 @@ const Note = ({openNote, setOpenNote, playBg}: {openNote: boolean, setOpenNote: 
                     <p>- Trò chơi Quay Lì Xì May Mắn, đầu xuân năm mới tất cả đều do vận may ngày tết của bản thân bạn, là lớn nhất hay nhỏ nhất, không ai biết được, mình khuyến nghị mỗi người nên có 2 lượt quay để đỡ tổn thương tinh thần, làm xụi mặt ngày tết</p>
                     <p className='font-bold text-lg md:text-xl' style={{ fontFamily: 'sans-serif' }}>- Lưu ý: ĐÂY LÀ TRÒ CHƠI MANG TÍNH GIẢI TRÍ, VUI LÒNG KHÔNG SỬ DỤNG DƯỚI BẤT KỲ HÌNH THỨC KHÁC (NHƯ CÁ CƯỢC, ĐÁNH BẠC, ...)</p>
                     <p className='font-bold text-3xl md:text-4xl pt-4 pb-1'>Hướng dẫn cách chơi:</p>
-                    <p>Bước 1: Chọn mệnh giá, ít nhất trên đĩa phải có 3 mệnh giá khác nhau và số lượng ít nhất là 6 tờ, nhiều nhất 30 tờ (khuyến khích nên chọn nhiều hơn 15 tờ tiền để đĩa xếp đều các tờ tiền đẹp mắt nhất)
+                    <p>Bước 1: Chọn mệnh giá, ít nhất trên đĩa phải có 3 mệnh giá khác nhau và số lượng ít nhất là 6 tờ, nhiều nhất 15 tờ
                     </p>
                     <p>- Nút "Chọn lại" sẽ xóa hết tất cả tiền trên đĩa và trả về đĩa trống-</p>
                     <p> Nút "Xóa bót" sẽ xóa tờ tiền gần nhất mà bạn vừa thêm vào</p>
