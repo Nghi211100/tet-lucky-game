@@ -44,13 +44,13 @@ const LuckySpin = () => {
   
   return (
     <div className={`w-full h-[-webkit-fill-available] py-4 md:py-10 px-4 md:px-8 relative z-0 ${openNote&&'h-screen overflow-hidden'}`}>
-      <h1 className='text-center text-3xl md:text-7xl font-black bg-cover bg-center text-transparent bg-clip-text bg-[url("/assets/result.jpg")]'>Vòng Quay Lì Xì</h1>
-      <div className='lg:flex space-y-6 mt-16 justify-center items-center'>
+      <h1 className='pt-6 text-center text-3xl md:text-7xl font-black bg-cover bg-center text-transparent  bg-clip-text bg-radial from-yellow-300 to-orange-400 text-shadow-2xs leading-[1.19]'>Vòng Quay Lì Xì</h1>
+      <div className='lg:flex space-y-6 mt-6 md:mt-16 justify-center items-center'>
       <div className='lg:w-1/2'><SpinWheel items={items} setSpinning={setSpinning} spinning={spinning} /></div>
       <div className='lg:w-1/2'><ValueSelection items={items} setItems={setItem} spinning={spinning} /></div>
       </div>     
-      <div className={`absolute top-5.5 md:top-10 left-10 h-6 w-6 md:h-10 md:w-10 bg-cover bg-white overflow-hidden rounded-full cursor-pointer z-999 ${ muted ? 'bg-[url("/assets/muted.png")]': 'bg-[url("/assets/unmuted.png")]'}`} onClick={()=>muteBg()}></div>
-      <div className='absolute top-5.5 md:top-10 right-10 h-6 w-6 md:h-10 md:w-10 bg-[url("/assets/info.png")] bg-cover bg-amber-500 rounded-full cursor-pointer z-999' onClick={()=>setOpenNote(!openNote)}></div>
+      <div className={`absolute top-10 md:top-10 left-5 md:left-10 h-10 w-10 md:h-14 md:w-14 bg-cover overflow-hidden cursor-pointer z-999 ${muted ? 'bg-[url("/assets/sound.svg")]' : 'bg-[url("/assets/sound.svg")]'}`} onClick={()=>muteBg()}></div>
+      <div className='absolute top-10 md:top-10 right-5 md:right-10 h-10 w-10 md:h-14 md:w-14 bg-[url("/assets/note.svg")] bg-cover cursor-pointer z-999' onClick={()=>setOpenNote(!openNote)}></div>
       
       <Note openNote={openNote} setOpenNote={setOpenNote} muteBg={()=>muteBg(true)}/>
       

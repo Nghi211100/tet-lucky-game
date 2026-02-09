@@ -206,9 +206,7 @@ const handleSpinClick = () => {
     <>
       <div className="relative flex flex-col items-center justify-center z-10">
         <div
-          className={`w-[30px] h-[40px] bg-[url('/assets/moc.png')] bg-contain bg-no-repeat absolute top-0 z-10 ${
-            spinning ? 'pointer-wiggle' : ''
-          }`}
+          className={`w-[110.94] h-[104.12] bg-[url('/assets/box.svg')] bg-contain bg-no-repeat absolute -bottom-10`}
         />
 
         <div className="md:hidden block">
@@ -220,11 +218,11 @@ const handleSpinClick = () => {
 
         <button
           onClick={handleSpinClick}
-          className="absolute inset-0 m-auto w-28 h-28 rounded-full bg-[url('/assets/vq5.png')] p-1 bg-contain bg-no-repeat active:scale-95 disabled:opacity-60"
+          className="absolute inset-0 m-auto w-[104] h-40 active:scale-95"
         >
-          <div className="cursor-pointer hover:from-30% bg-radial from-red-500 to-yellow-400 w-full h-full rounded-full flex items-center justify-center text-yellow-400 font-bold">
-            Quay
-          </div>
+          <div className='relative h-[140] w-[104] -mt-8'>
+            <Image src={"/assets/spin.svg"} alt='spin' fill objectFit='contain' />
+          </div> 
         </button>
       </div>
 

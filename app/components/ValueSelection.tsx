@@ -28,53 +28,49 @@ const selectionItems: IItemSpin[] = [
         value: '10',
         imageUrl: '/assets/10k.jpg',
     },
-    {
-        value: '5',
-        imageUrl: '/assets/5k.jpg',
-    },
+    // {
+    //     value: '5',
+    //     imageUrl: '/assets/5k.jpg',
+    // },
 ]
 
 const ValueSelection = ({ items,setItems, spinning }: { items: IItemSpin[],setItems: Dispatch<SetStateAction<IItemSpin[]>>, spinning: boolean }) => {
     const handleClick = (item: IItemSpin) => {
         if(items.length<15){
-            setItems((pre: IItemSpin[]) => [...pre, item])
+            setItems((pre: IItemSpin[]) => [...pre, item, item])
         } else{
             toast.info("Tối đa 15 phần thưởng thôi nha")
         }
     }
 
     return (
-        <div className='bg-amber-200 border-red-400 border-2 rounded-lg shadow-lg py-6 px-2'>
-            <h3 className='text-center text-2xl md:text-4xl mb-6 text-red-500'>Chọn mệnh giá</h3>
-            <div className='flex gap-6 flex-wrap justify-evenly'>
-                {selectionItems.map((item, index) => (
-                    <button disabled={spinning} className='shadow-2xl rounded-lg w-[calc(524px/3.3)] md:w-[calc(524px/3)] h-[calc(244px/3.3)] md:h-[calc(244px/3)] relative hover:scale-105 border-2 border-white cursor-pointer' key={item.imageUrl + index}
-                        onClick={() => handleClick(item)}>
-                        <Image
-                            alt="money"
-                            src={item.imageUrl}
-                            fill
-                            className="object-cover"
-                        />
-                    </button>
-                ))}
+        <>
+            <div className='bg-[#FFFAEE] border-[#FFBB00] border-4 rounded-[16px] shadow-lg py-6 px-2 relative z-10'>
+                <h3 className='text-center text-2xl md:text-4xl mb-6 text-[#EBAC00] font-bold'>Chọn phần thưởng</h3>
+                <div className='flex gap-6 flex-wrap justify-evenly'>
+                    {selectionItems.map((item, index) => (
+                        <button disabled={spinning} className='shadow-2xl rounded-lg w-[calc(524px/3.3)] md:w-[calc(524px/3)] h-[calc(244px/3.3)] md:h-[calc(244px/3)] relative hover:scale-105 border-2 border-white cursor-pointer' key={item.imageUrl + index}
+                            onClick={() => handleClick(item)}>
+                            <Image
+                                alt="money"
+                                src={item.imageUrl}
+                                fill
+                                className="object-cover"
+                            />
+                        </button>
+                    ))}
 
+                </div>
             </div>
             <div className='flex gap-6 mt-6 justify-center'>
                 <button disabled={spinning}
-                    className='hover:cursor-pointer hover:from-30% bg-radial from-red-500 to-yellow-400 text-yellow-400 font-bold text-lg border-2 border-white hover:bg-red-600 shadow-2xl px-4 py-2 w-max rounded-lg'
+                    className='hover:cursor-pointer bg-radial from-[#FFD500] to-[#FFC300] text-white font-bold text-lg px-5 py-2.5 w-max rounded-full shadow-[inset_0_-4px_8px_0_rgba(255,255,255,0.12),inset_0_4px_8px_0_rgba(255,255,255,0.8)]'
                     onClick={() => setItems([])}
                 >
                     Chọn lại
                 </button>
-                <button disabled={spinning}
-                    className='hover:cursor-pointer hover:from-30% bg-radial from-red-500 to-yellow-400 text-yellow-400 font-bold text-lg border-2 border-white hover:bg-red-600 shadow-2xl px-4 py-2 w-max rounded-lg'
-                    onClick={() => setItems((pre: IItemSpin[]) => pre.slice(0, -1))}
-                >
-                    Xóa bớt
-                </button>
             </div>
-        </div>
+        </>
     )
 }
 

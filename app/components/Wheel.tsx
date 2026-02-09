@@ -40,7 +40,7 @@ const Wheel = ({
       {/* ROTATING WHEEL */}
       <div
         ref={mobile ? wheelRefMobile : wheelRef}
-        className="relative rounded-full overflow-hidden"
+        className="relative rounded-full overflow-hidden bg-[#FFF5CD]"
         style={{
           width: size,
           height: size,
