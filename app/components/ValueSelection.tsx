@@ -45,11 +45,11 @@ const ValueSelection = ({ items,setItems, spinning }: { items: IItemSpin[],setIt
 
     return (
         <>
-            <div className='bg-[#FFFAEE] border-[#FFBB00] border-4 rounded-[16px] shadow-lg py-6 px-2 relative z-10'>
+            <div className='bg-[#FFFAEE] border-[#FFBB00] border-4 rounded-[16px] shadow-lg py-6 px-2 relative z-10 w-max max-w-full flex flex-col items-center'>
                 <h3 className='text-center text-2xl md:text-4xl mb-6 text-[#EBAC00] font-bold'>Chọn phần thưởng</h3>
-                <div className='flex gap-6 flex-wrap justify-evenly'>
+                <div className='flex gap-6 flex-wrap justify-center w-max max-w-full'>
                     {selectionItems.map((item, index) => (
-                        <button disabled={spinning} className='shadow-2xl rounded-lg w-[calc(524px/3.3)] md:w-[calc(524px/3)] h-[calc(244px/3.3)] md:h-[calc(244px/3)] relative hover:scale-105 border-2 border-white cursor-pointer' key={item.imageUrl + index}
+                        <button disabled={spinning} className='rounded-lg w-[calc(524px/3.5)] md:w-[calc(524px/2.5)] h-[calc(244px/3.5)] md:h-[calc(244px/2.5)] relative hover:scale-105 border-2 border-white cursor-pointer' key={item.imageUrl + index}
                             onClick={() => handleClick(item)}>
                             <Image
                                 alt="money"

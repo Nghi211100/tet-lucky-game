@@ -8,7 +8,8 @@ const Wheel = ({
   wheelRef,
   wheelRefMobile,
   items,
-  sliceColors
+  sliceColors,
+  spin
 }: {
   size: number
   mobile?: boolean
@@ -16,6 +17,7 @@ const Wheel = ({
   wheelRefMobile: RefObject<HTMLDivElement | null>
   items: IItemSpin[]
   sliceColors: string[]
+  spin: () => void
 }) => {
   const sliceAngle = 360 / items.length
 
@@ -34,13 +36,13 @@ const Wheel = ({
 
   return (
     <div
-      className="relative rounded-full p-2 bg-[url('/assets/vq5.png')] bg-contain bg-no-repeat shadow-2xl"
-      style={{ width: size + 16, height: size + 16 }}
+      className="relative rounded-full p-10"
+      style={{ width: size + 80, height: size + size*0.39 }}
     >
       {/* ROTATING WHEEL */}
       <div
         ref={mobile ? wheelRefMobile : wheelRef}
-        className="relative rounded-full overflow-hidden bg-[#FFF5CD]"
+        className="relative rounded-full overflow-hidden"
         style={{
           width: size,
           height: size,
@@ -88,18 +90,29 @@ const Wheel = ({
                         alt="reward"
                         fill
                         className="object-contain"
-                    />
+                  />
                 </div>
+              </div>
+              <div className="absolute md:top-[calc(50%-120px)] top-[calc(50%-70px)] md:left-[calc(50%-15px)] left-[calc(50%-10px)]" style={{
+                width: `${size * 0.05}px`,
+                height: `${size * 0.05}px`,
+              }}>
+                <Image src={"/assets/star.svg"} alt='spin' fill objectFit='contain' />
               </div>
             </div>
           )
-        })}
-
-        {/* CENTER */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-20 h-20 rounded-full bg-linear-to-br from-yellow-400 to-red-500 flex items-center justify-center text-white font-bold shadow-xl"> 
-          </div>
+        })}       
+      </div>
+      <button
+        onClick={() => spin()}
+        className="absolute active:scale-95"
+        style={{ top: `calc(50% - 80px - ${size * 0.4 / 6}px)`, left: `calc(50% - ${size * 0.4 / 2}px)`, width: `${size * 0.4}px`, height: `${size * 0.4}px` }}
+      >
+        <div className='relative h-full w-full -mt-8'>
+          <Image src={"/assets/spin.svg"} alt='spin' fill objectFit='contain' />
         </div>
+      </button>
+      <div className='h-full bg-[url("/assets/wheel-v1.svg")] bg-contain bg-no-repeat absolute top-0 left-0 right-0 -z-10'>
       </div>
     </div>
   )

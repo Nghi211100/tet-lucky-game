@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen bg-[url('/assets/background.png')] md:bg-[url('/assets/background.jpg')] bg-cover bg-bottom bg-fixed"> 
+    <div className="flex max-w-[100vw] min-h-screen bg-[url('/assets/background.png')] md:bg-[url('/assets/background.jpg')] bg-cover bg-bottom bg-fixed"> 
         <InstallPrompt />
         <LuckySpin />
         <ToastContainer

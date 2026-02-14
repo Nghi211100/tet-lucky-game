@@ -3,7 +3,7 @@
 import { Dispatch, SetStateAction, useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import { IItemSpin } from '../features/LuckySpin'
-import { generateColors, shuffleAvoidAdjacent } from '../help'
+import { shuffleAvoidAdjacent } from '../help'
 import Fireworks from './Fireworks'
 import Wheel from './Wheel'
 import { toast } from 'react-toastify'
@@ -177,8 +177,12 @@ export function SpinWheel({
   
   
   const sliceColors = useMemo(() => {
-    const palette = ['#FBC02D', '#E53935', '#FB8C00'] // yellow, red, orange
-    return generateColors(items.length, palette)
+    // Alternating light yellow/cream and light pink/peach colors
+    const color1 = '#FFD7D7' // light yellow/cream
+    const color2 = '#FFF5CD' // light pink/peach
+    return Array.from({ length: items.length }, (_, i) => 
+      i % 2 === 0 ? color1 : color2
+    )
   }, [items.length]) 
 
 
@@ -205,25 +209,12 @@ const handleSpinClick = () => {
   return (
     <>
       <div className="relative flex flex-col items-center justify-center z-10">
-        <div
-          className={`w-[110.94] h-[104.12] bg-[url('/assets/box.svg')] bg-contain bg-no-repeat absolute -bottom-10`}
-        />
-
         <div className="md:hidden block">
-          <Wheel items={shuffleItems} size={size<500?size-64: 500} wheelRef={wheelRef} wheelRefMobile={wheelRefMobile} mobile sliceColors={sliceColors}/>
+          <Wheel items={shuffleItems} size={size < 500 ? size - 64 : 500} wheelRef={wheelRef} wheelRefMobile={wheelRefMobile} mobile sliceColors={sliceColors} spin={handleSpinClick}/>
         </div>
         <div className="md:block hidden">
-          <Wheel items={shuffleItems} size={size<1400?(size/2)-64: 600} wheelRef={wheelRef} wheelRefMobile={wheelRefMobile} sliceColors={sliceColors}/>
+          <Wheel items={shuffleItems} size={size < 1400 ? (size / 2) - 64 : 600} wheelRef={wheelRef} wheelRefMobile={wheelRefMobile} sliceColors={sliceColors} spin={handleSpinClick}/>
         </div>
-
-        <button
-          onClick={handleSpinClick}
-          className="absolute inset-0 m-auto w-[104] h-40 active:scale-95"
-        >
-          <div className='relative h-[140] w-[104] -mt-8'>
-            <Image src={"/assets/spin.svg"} alt='spin' fill objectFit='contain' />
-          </div> 
-        </button>
       </div>
 
       {/* Result modal */}
