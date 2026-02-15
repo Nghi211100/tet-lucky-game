@@ -198,8 +198,9 @@ export function SpinWheel({
     // Alternating light yellow/cream and light pink/peach colors
     const color1 = '#FFD7D7' // light yellow/cream
     const color2 = '#FFF5CD' // light pink/peach
+    const color3 = '#FFFAEE' // light pink/peach
     return Array.from({ length: items.length }, (_, i) => 
-      i % 2 === 0 ? color1 : color2
+      i % 3 === 0 ? color1 : i % 3 === 1 ? color2 : color3
     )
   }, [items.length]) 
 
@@ -247,14 +248,16 @@ const handleSpinClick = () => {
         }}
       >
         <div className="flex w-full h-full items-center justify-center">
-          <div className="relative h-1/2 w-full md:w-1/2">
+          <div className="relative flex-col flex items-center justify-center p-6 w-[374px] h-[242px] md:w-[520px] md:h-[338px] bg-[url('/assets/Modal.svg')] bg-cover bg-center bg-no-repeat">
+            <p className='text-sm text-[#C50101] text-center font-semibold'>Xuân sang phú quý gõ cửa,<br /> Tiền vô lũ lượt, buồn bã xin thưa.</p>
             <Image
-              alt="money"
-              src={result?.imageUrl || '/'}
-              fill
-              className="object-contain"
-            />
-          </div>
+                alt="money"
+                src={result?.imageUrl || '/'}
+                className="object-contain"
+                width={374}
+                height={242}
+              />
+            </div>
         </div>
       </div>
 

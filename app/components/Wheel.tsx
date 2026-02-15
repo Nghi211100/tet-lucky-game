@@ -129,7 +129,7 @@ const Wheel = ({
       </div>
       <button
         onClick={() => spin()}
-        className="absolute active:scale-95"
+        className="absolute active:scale-95 hover:cursor-pointer"
         style={{ 
           top: `${paddingVertical + size * 0.3 - size * 0.04}px`, 
           left: `${paddingHorizontal + size * 0.3}px`, 
