@@ -153,9 +153,8 @@ export function SpinWheel({
 
     if (navigator.vibrate) navigator.vibrate([30, 20, 30])
 
-    setTimeout(() => setSpinning(false), 4600)
-
     setTimeout(() => {
+      
       const newResult = shuffleItems[index]
       setResult(newResult)
       setIsOpenResult(true)
@@ -164,7 +163,7 @@ export function SpinWheel({
       setShowFireworks(true)
 
       setTimeout(() => setFadeOut(true), 3000)
-      setTimeout(() => setShowFireworks(false), 3800)
+      setTimeout(() => {setShowFireworks(false); setSpinning(false)}, 3800)
     }, 6000)
   }
 
@@ -198,10 +197,64 @@ export function SpinWheel({
     // Alternating light yellow/cream and light pink/peach colors
     const color1 = '#FFD7D7' // light yellow/cream
     const color2 = '#FFF5CD' // light pink/peach
-    const color3 = '#FFFAEE' // light pink/peach
-    return Array.from({ length: items.length }, (_, i) => 
-      i % 3 === 0 ? color1 : i % 3 === 1 ? color2 : color3
-    )
+    const color3 = '#FFFAEE' // light skin color
+    const colors = [color1, color2, color3]
+    
+    if (items.length === 0) return []
+    
+    // Calculate how many times each color should appear (equal distribution)
+    const baseCount = Math.floor(items.length / 3)
+    const remainder = items.length % 3
+    
+    // Create counts for each color
+    const colorCounts = colors.map((_, index) => baseCount + (index < remainder ? 1 : 0))
+    
+    // Distribute colors ensuring no adjacent duplicates and equal distribution
+    const result: string[] = []
+    const used = new Map<string, number>()
+    colors.forEach((c) => used.set(c, 0))
+    
+    for (let i = 0; i < items.length; i++) {
+      const prevColor = result[i - 1]
+      const nextColor = i === items.length - 1 ? result[0] : null
+      
+      // Get available colors that don't match adjacent and haven't reached their quota
+      const available = colors.filter((c, index) => {
+        if (c === prevColor) return false
+        if (nextColor && c === nextColor) return false
+        const usedCount = used.get(c) || 0
+        return usedCount < colorCounts[index]
+      })
+      
+      // If no available colors, use any that doesn't match adjacent
+      if (available.length === 0) {
+        const fallback = colors.filter(c => c !== prevColor && c !== nextColor)
+        if (fallback.length > 0) {
+          result.push(fallback[0])
+          used.set(fallback[0], (used.get(fallback[0]) || 0) + 1)
+          continue
+        }
+      }
+      
+      // Pick the first available color (deterministic)
+      const selected = available[0] || colors[0]
+      result.push(selected)
+      used.set(selected, (used.get(selected) || 0) + 1)
+    }
+    
+    // Final check: if last equals first, swap with a safe position
+    if (result.length > 2 && result[0] === result[result.length - 1]) {
+      for (let i = 1; i < result.length - 1; i++) {
+        if (result[i] !== result[0] && result[i] !== result[result.length - 2]) {
+          const temp = result[i]
+          result[i] = result[result.length - 1]
+          result[result.length - 1] = temp
+          break
+        }
+      }
+    }
+    
+    return result
   }, [items.length]) 
 
 
@@ -222,6 +275,11 @@ const handleSpinClick = () => {
     return
   }
 
+  if(isOpenResult) {
+    toast.info('Vòng quay đang chạy rồi nha 🎡')
+    return
+  }
+
   spin()
 }
 
@@ -229,7 +287,7 @@ const handleSpinClick = () => {
     <>
       <div className="relative flex flex-col items-center justify-center z-10">
         <div className="md:hidden block">
-          <Wheel items={shuffleItems} size={size < 500 ? size - 64 : 300} wheelRef={wheelRef} wheelRefMobile={wheelRefMobile} mobile sliceColors={sliceColors} spin={handleSpinClick}/>
+          <Wheel items={shuffleItems} size={size < 500 ? size - 64 : 500} wheelRef={wheelRef} wheelRefMobile={wheelRefMobile} mobile sliceColors={sliceColors} spin={handleSpinClick}/>
         </div>
         <div className="md:block hidden">
           <Wheel items={shuffleItems} size={size < 1400 ? (size / 2) - 64 : 600} wheelRef={wheelRef} wheelRefMobile={wheelRefMobile} sliceColors={sliceColors} spin={handleSpinClick}/>
@@ -243,19 +301,20 @@ const handleSpinClick = () => {
         }`}
         hidden={!isOpenResult}
         onClick={() => {
+          if(spinning) return
           setResult(null)
           setIsOpenResult(false)
         }}
       >
         <div className="flex w-full h-full items-center justify-center">
-          <div className="relative flex-col flex items-center justify-center p-6 w-[374px] h-[242px] md:w-[520px] md:h-[338px] bg-[url('/assets/Modal.svg')] bg-cover bg-center bg-no-repeat">
-            <p className='text-sm text-[#C50101] text-center font-semibold'>Xuân sang phú quý gõ cửa,<br /> Tiền vô lũ lượt, buồn bã xin thưa.</p>
+          <div className="relative flex-col flex items-center justify-center p-6 w-[374px] h-[242px] sm:w-[520px] sm:h-[338px] md:w-[748px] md:h-[476px] bg-[url('/assets/Modal.svg')] bg-cover bg-center bg-no-repeat">
+            <p className='text-sm sm:text-base md:text-xl text-[#C50101] text-center font-semibold mt-3! sm:mt-4! md:mt-6! -mb-2! sm:-mb-4!'>Xuân sang phú quý gõ cửa,<br /> Tiền vô lũ lượt, buồn bã xin thưa.</p>
             <Image
                 alt="money"
                 src={result?.imageUrl || '/'}
-                className="object-contain"
-                width={374}
-                height={242}
+                className="object-contain max-w-[374px] max-h-[242px] sm:max-w-[520px] sm:max-h-[338px] md:max-w-[748px] md:max-h-[476px] flex-1"
+                width={374*5}
+                height={242*5}
               />
             </div>
         </div>

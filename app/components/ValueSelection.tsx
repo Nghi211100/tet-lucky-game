@@ -49,7 +49,7 @@ const ValueSelection = ({ items,setItems, spinning }: { items: IItemSpin[],setIt
                 <h3 className='text-center text-base md:text-2xl mb-6 md:mb-8 text-[#EBAC00] font-semibold'>Chọn phần thưởng</h3>
                 <div className='flex gap-4 md:gap-6 flex-wrap w-max max-w-full px-2 md:px-4'>
                     {selectionItems.map((item, index) => (
-                        <button disabled={spinning} className='rounded-lg w-[104px] md:w-[calc(100px*2)] h-[45px] md:h-[calc(45px*2)] relative hover:scale-105 cursor-pointer' key={item.imageUrl + index}
+                        <button disabled={spinning} className='active:scale-95 rounded-lg w-[104px] sm:w-[calc(100px*1.5)] md:w-[calc(100px*2)] h-[45px] sm:h-[calc(45px*1.5)] md:h-[calc(45px*2)] relative hover:scale-105 cursor-pointer' key={item.imageUrl + index}
                             onClick={() => handleClick(item)}>
                             <Image
                                 alt="money"
@@ -65,7 +65,7 @@ const ValueSelection = ({ items,setItems, spinning }: { items: IItemSpin[],setIt
             </div>
             <div className='flex gap-6 mt-6 justify-center'>
                 <button disabled={spinning}
-                    className='hover:cursor-pointer bg-radial from-[#FFD500] to-[#FFC300] text-white font-bold text-lg px-5 py-2.5 w-max rounded-full shadow-[inset_0_-4px_8px_0_rgba(255,255,255,0.12),inset_0_4px_8px_0_rgba(255,255,255,0.8)]'
+                    className='active:scale-95 hover:cursor-pointer bg-radial from-[#FFD500] to-[#FFC300] text-white font-bold text-lg px-5 py-2.5 w-max rounded-full shadow-[inset_0_-4px_8px_0_rgba(255,255,255,0.12),inset_0_4px_8px_0_rgba(255,255,255,0.8)]'
                     onClick={() => setItems([])}
                 >
                     Chọn lại

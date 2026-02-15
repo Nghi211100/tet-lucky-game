@@ -51,7 +51,7 @@ const Wheel = ({
       {/* ROTATING WHEEL */}
       <div
         ref={mobile ? wheelRefMobile : wheelRef}
-        className="relative rounded-full overflow-hidden"
+        className="relative rounded-full overflow-hidden bg-[#FFFAEE]"
         style={{
           width: size,
           height: size,
@@ -89,7 +89,21 @@ const Wheel = ({
                     />
                 </div>
                 <div
-                    className="relative rotate-90 block md:hidden"
+                    className="relative rotate-90 hidden sm:block md:hidden"
+                    style={{
+                        width: `${imageWidth/1.3}px`,
+                        height: `${imageHeight/1.3}px`,
+                    }}
+                    >
+                    <Image
+                        src={item.imageUrl}
+                        alt="reward"
+                        fill
+                        className="object-contain"
+                  />
+                </div>
+                <div
+                    className="relative rotate-90 block sm:hidden"
                     style={{
                         width: `${imageWidth/2}px`,
                         height: `${imageHeight/2}px`,
@@ -122,7 +136,6 @@ const Wheel = ({
             height: size,
             background: `radial-gradient(transparent 65%, rgb(201 99 12 / 54%) 76%)`,
             padding: `${size * 0.02}px`,
-            display: `${items.length < 1 ? 'none' : 'block'}`,
           }}
         >
         </div>
