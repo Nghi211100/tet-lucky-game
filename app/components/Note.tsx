@@ -8,7 +8,7 @@ const Note = ({openNote, setOpenNote, muteBg}: {openNote: boolean, setOpenNote: 
     if (!openNote) return <></>
 
     return (
-        <div className='absolute inset-0 h-screen w-screen flex items-center justify-center shadow-2xl z-99 over bg-black/50' onClick={() => { setOpenNote(false); muteBg() }}>
+        <div className='absolute inset-0 h-screen w-screen overflow-hidden overscroll-none flex items-center justify-center shadow-2xl z-99 over bg-black/50' onClick={() => { setOpenNote(false); muteBg() }}>
             <div className='w-[95%] md:w-4/5 h-4/5 relative z-99 rounded-lg overflow-visible flex items-center justify-center
             bg-[url("/assets/Body.svg")] bg-cover bg-center
                 '>
@@ -18,7 +18,7 @@ const Note = ({openNote, setOpenNote, muteBg}: {openNote: boolean, setOpenNote: 
                 <div className='absolute bottom-0 left-0 w-full h-6 z-100 rounded-b-lg overflow-hidden
                 bg-[url("/assets/Footer.svg")] bg-cover bg-center bg-no-repeat
                     '/>
-                <div className='space-y-4 max-w-[80%] md:max-w-4/5 h-full z-10 text-[#670000] overflow-y-auto text-sm sm:text-base md:text-lg py-10 px-2 md:px-4'>
+                <div className='space-y-4 max-w-[80%] md:max-w-4/5 h-full z-10 text-[#670000] overflow-y-auto text-sm sm:text-base md:text-lg py-10 px-1 md:px-4'>
                     <p className='text-lg md:text-2xl text-red-500 uppercase text-center font-bold pb-2'>Giới thiệu trò chơi</p>
                     <p>Đầu xuân năm mới, mọi thứ đều bắt đầu bằng một cú quay. Lì xì nhiều hay ít không quan trọng, quan trọng là cảm giác hồi hộp khi mũi tên dừng lại. Mỗi lượt quay là một bất ngờ nhỏ, mang theo không khí vui vẻ và may mắn ngày Tết.</p>
                     <p style={{ fontFamily: 'sans-serif' }} className=' pt-4'> <span className='font-bold'>Lưu ý:</span> Đây là trò chơi mang tính giải trí. Vui lòng <span className='text-red-500 font-bold'>KHÔNG</span> sử dụng (cá cược, đánh bạc,…) dưới bất kỳ hình thức nào khác.</p>
