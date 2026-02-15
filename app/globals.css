@@ -75,3 +75,7 @@ body {
 .animate-slideUp {
   animation: slideUp 0.35s ease-out;
 }
+
+p{
+  margin: 0 !important;
+}

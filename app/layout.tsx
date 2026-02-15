@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import { AR_One_Sans } from "next/font/google";
 import "./globals.css";
 import RegisterSW from './providers/register-sw';
-const dancingScript = AR_One_Sans({ subsets: ['vietnamese'], weight: '400' })
 
 export const metadata: Metadata = {
   title: "Quay Lì Xì May Mắn",
@@ -25,7 +23,6 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="Lucky Spin" />
       </head>
       <body
-        className={dancingScript.className}
       >
         <RegisterSW />
         {children}

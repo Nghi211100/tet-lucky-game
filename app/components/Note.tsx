@@ -8,26 +8,53 @@ const Note = ({openNote, setOpenNote, muteBg}: {openNote: boolean, setOpenNote: 
     if (!openNote) return <></>
 
     return (
-        <div className='absolute inset-0 h-screen w-screen flex items-center justify-center shadow-2xl z-99 over' onClick={() => { setOpenNote(false); muteBg() }}>
-            <div className='w-[95%] md:w-4/5 h-4/5 relative z-99 rounded-lg overflow-hidden flex items-center justify-center border border-amber-600'>
-                <Image alt='banner' src={'/assets/guide-background.png'} fill objectFit='cover' className='z-0' />
-                <div className='space-y-4 max-w-[90%] md:max-w-4/5 max-h-4/5 z-10 text-yellow-300 overflow-y-auto text-2xl md:text-3xl'>
-                    <p className='font-bold text-3xl md:text-4xl pb-1'>Giới thiệu trò chơi:</p>
-                    <p>- Trò chơi Quay Lì Xì May Mắn, đầu xuân năm mới tất cả đều do vận may ngày tết của bản thân bạn, là lớn nhất hay nhỏ nhất, không ai biết được, mình khuyến nghị mỗi người nên có 2 lượt quay để đỡ tổn thương tinh thần, làm xụi mặt ngày tết</p>
-                    <p className='font-bold text-lg md:text-xl' style={{ fontFamily: 'sans-serif' }}>- Lưu ý: ĐÂY LÀ TRÒ CHƠI MANG TÍNH GIẢI TRÍ, VUI LÒNG KHÔNG SỬ DỤNG DƯỚI BẤT KỲ HÌNH THỨC KHÁC (NHƯ CÁ CƯỢC, ĐÁNH BẠC, ...)</p>
-                    <p className='font-bold text-3xl md:text-4xl pt-4 pb-1'>Hướng dẫn cách chơi:</p>
-                    <p>Bước 1: Chọn mệnh giá, ít nhất trên đĩa phải có 3 mệnh giá khác nhau và số lượng ít nhất là 6 tờ, nhiều nhất 15 tờ
+        <div className='absolute inset-0 h-screen w-screen flex items-center justify-center shadow-2xl z-99 over bg-black/50' onClick={() => { setOpenNote(false); muteBg() }}>
+            <div className='w-[95%] md:w-4/5 h-4/5 relative z-99 rounded-lg overflow-visible flex items-center justify-center
+            bg-[url("/assets/Body.svg")] bg-cover bg-center
+                '>
+                <div className='absolute top-0 left-0 w-full h-6 z-100 rounded-t-lg overflow-hidden
+                bg-[url("/assets/Footer.svg")] bg-cover bg-center bg-no-repeat
+                    '/>           
+                <div className='absolute bottom-0 left-0 w-full h-6 z-100 rounded-b-lg overflow-hidden
+                bg-[url("/assets/Footer.svg")] bg-cover bg-center bg-no-repeat
+                    '/>
+                <div className='space-y-4 max-w-[80%] md:max-w-4/5 h-full z-10 text-[#670000] overflow-y-auto text-sm sm:text-base md:text-lg py-10 px-2 md:px-4'>
+                    <p className='text-lg md:text-2xl text-red-500 uppercase text-center font-bold pb-2'>Giới thiệu trò chơi</p>
+                    <p>Đầu xuân năm mới, mọi thứ đều bắt đầu bằng một cú quay. Lì xì nhiều hay ít không quan trọng, quan trọng là cảm giác hồi hộp khi mũi tên dừng lại. Mỗi lượt quay là một bất ngờ nhỏ, mang theo không khí vui vẻ và may mắn ngày Tết.</p>
+                    <p style={{ fontFamily: 'sans-serif' }} className=' pt-4'> <span className='font-bold'>Lưu ý:</span> Đây là trò chơi mang tính giải trí. Vui lòng <span className='text-red-500 font-bold'>KHÔNG</span> sử dụng (cá cược, đánh bạc,…) dưới bất kỳ hình thức nào khác.</p>
+                    <p className='text-lg md:text-2xl pt-4 pb-1 font-bold'>Hướng dẫn cách chơi</p>
+                    <p className='font-bold'>Bước 1: Chuẩn bị đĩa quay</p>
+                    <ul className='list-disc list-inside ml-4 space-y-1'>
+                        <li>Chọn các mệnh giá tiền lì xì.</li>
+                        <li>Trên đĩa cần có ít nhất 3 mệnh giá khác nhau.</li>
+                        <li>Số lượng tờ tiền: tối thiểu 6, tối đa 15.</li>
+                    </ul>
+                    <p className='font-bold'>Bước 2: Quay đĩa
                     </p>
-                    <p>- Nút "Chọn lại" sẽ xóa hết tất cả tiền trên đĩa và trả về đĩa trống-</p>
-                    <p> Nút "Xóa bót" sẽ xóa tờ tiền gần nhất mà bạn vừa thêm vào</p>
-                    <p>Bước 2: Nhấn vào vòng quay ở ngay giữa đĩa, đĩa sẽ quay ngẫu nhiên
+                    <p>Nhấn vào nút quay ở trung tâm, đĩa sẽ quay ngẫu nhiên.</p>
+                    <p className='font-bold pt-2'>Bước 3: Nhận lì xì
                     </p>
-                    <p>Bước 3: Cùng chờ kết quả, số tiền lì xì sẽ tương ứng với số tiền được mũi tên trên đĩa quay chỉ trúng
+                    <p>
+                        Chờ kết quả. Số tiền lì xì chính là mệnh giá mà mũi tên trên đĩa dừng lại 🎁
                     </p>
-                    <p className='text-center font-bold text-3xl md:text-4xl pt-2'>Chúc các bạn có một mùa tết thật là vui vẻ</p>
+                    <p className='italic pt-2'>Bạn có thể chọn lại phần thưởng bằng nút “Chọn lại” ở dưới cùng.</p>
                 </div>
-                <p className='absolute bottom-5 md:bottom-10 text-gray-300 text-xl'>(Nhấn bất kì để tắt hướng dẫn này)</p>
-            </div>
+                <button 
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setOpenNote(false);
+                        muteBg();
+                    }}
+                    className='absolute -bottom-12 md:-bottom-20 left-1/2 transform -translate-x-1/2 w-10 h-10 md:w-16 md:h-16 z-10 hover:scale-105 transition-transform duration-200'
+                >
+                    <Image 
+                        src="/assets/Button.svg" 
+                        alt="Close" 
+                        fill
+                        className="object-contain"
+                    />
+                </button>
+            </div>           
         </div>
     )
 }

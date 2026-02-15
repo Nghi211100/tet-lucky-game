@@ -170,10 +170,28 @@ export function SpinWheel({
 
   // ---------- UI ----------
 
-  useEffect(()=>{
-    if(window.innerWidth)
-    setSize(window.innerWidth)
+  useEffect(() => {
+    // Set initial size
+    const updateSize = () => {
+      if (typeof window !== 'undefined') {
+        setSize(window.innerWidth)
+      }
+    }
+    
+    // Set initial size
+    updateSize()
+    
+    // Handle window resize
+    window.addEventListener('resize', updateSize)
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', updateSize)
   }, [])
+  
+  // Log size when it changes (inside useEffect to see actual updates)
+  useEffect(() => {
+    console.log('Size updated:', size)
+  })
   
   
   const sliceColors = useMemo(() => {
@@ -210,7 +228,7 @@ const handleSpinClick = () => {
     <>
       <div className="relative flex flex-col items-center justify-center z-10">
         <div className="md:hidden block">
-          <Wheel items={shuffleItems} size={size < 500 ? size - 64 : 500} wheelRef={wheelRef} wheelRefMobile={wheelRefMobile} mobile sliceColors={sliceColors} spin={handleSpinClick}/>
+          <Wheel items={shuffleItems} size={size < 500 ? size - 64 : 300} wheelRef={wheelRef} wheelRefMobile={wheelRefMobile} mobile sliceColors={sliceColors} spin={handleSpinClick}/>
         </div>
         <div className="md:block hidden">
           <Wheel items={shuffleItems} size={size < 1400 ? (size / 2) - 64 : 600} wheelRef={wheelRef} wheelRefMobile={wheelRefMobile} sliceColors={sliceColors} spin={handleSpinClick}/>
@@ -219,7 +237,7 @@ const handleSpinClick = () => {
 
       {/* Result modal */}
       <div
-        className={`transition-opacity bg-black/65 duration-1000 absolute inset-0 h-full w-full z-999 ${
+        className={`transition-opacity bg-black/65 duration-1000 fixed overscroll-none overflow-hidden inset-0 h-screen w-screen z-999 ${
           isOpenResult ? 'opacity-100' : 'opacity-0'
         }`}
         hidden={!isOpenResult}

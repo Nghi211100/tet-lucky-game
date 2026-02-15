@@ -19,7 +19,7 @@ export default function IOSInstallHint({ onClose }: { onClose: () => void }) {
             onClick={onClose}
             className="mt-5 bg-blue-600 text-white px-6 py-2 rounded-xl"
           >
-            Đã hiểu
+            Để sau
           </button>
         </div>
       </div>

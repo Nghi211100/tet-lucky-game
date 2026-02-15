@@ -6,27 +6,27 @@ import { toast } from 'react-toastify'
 const selectionItems: IItemSpin[] = [
     {
         value: '500',
-        imageUrl: '/assets/500k.jpg',
+        imageUrl: '/assets/500k.svg',
     },
     {
         value: '200',
-        imageUrl: '/assets/200k.jpg',
+        imageUrl: '/assets/200k.svg',
     },
     {
         value: '100',
-        imageUrl: '/assets/100k.jpg',
+        imageUrl: '/assets/100k.svg',
     },
     {
         value: '50',
-        imageUrl: '/assets/50k.jpg',
+        imageUrl: '/assets/50k.svg',
     },
     {
         value: '20',
-        imageUrl: '/assets/20k.jpg',
+        imageUrl: '/assets/20k.svg',
     },
     {
         value: '10',
-        imageUrl: '/assets/10k.jpg',
+        imageUrl: '/assets/10k.svg',
     },
     // {
     //     value: '5',
@@ -37,7 +37,7 @@ const selectionItems: IItemSpin[] = [
 const ValueSelection = ({ items,setItems, spinning }: { items: IItemSpin[],setItems: Dispatch<SetStateAction<IItemSpin[]>>, spinning: boolean }) => {
     const handleClick = (item: IItemSpin) => {
         if(items.length<15){
-            setItems((pre: IItemSpin[]) => [...pre, item, item])
+            setItems((pre: IItemSpin[]) => [...pre, item])
         } else{
             toast.info("Tối đa 15 phần thưởng thôi nha")
         }
@@ -45,17 +45,18 @@ const ValueSelection = ({ items,setItems, spinning }: { items: IItemSpin[],setIt
 
     return (
         <>
-            <div className='bg-[#FFFAEE] border-[#FFBB00] border-4 rounded-[16px] shadow-lg py-6 px-2 relative z-10 w-max max-w-full flex flex-col items-center'>
-                <h3 className='text-center text-2xl md:text-4xl mb-6 text-[#EBAC00] font-bold'>Chọn phần thưởng</h3>
-                <div className='flex gap-6 flex-wrap justify-center w-max max-w-full'>
+            <div className='bg-[#FFFAEE] border-[#FFBB00] border-4 rounded-[16px] shadow-lg py-6 md:py-8 px-4 md:px-6 relative z-10 w-max max-w-full flex flex-col items-center'>
+                <h3 className='text-center text-base md:text-2xl mb-6 md:mb-8 text-[#EBAC00] font-semibold'>Chọn phần thưởng</h3>
+                <div className='flex gap-4 md:gap-6 flex-wrap w-max max-w-full px-2 md:px-4'>
                     {selectionItems.map((item, index) => (
-                        <button disabled={spinning} className='rounded-lg w-[calc(524px/3.5)] md:w-[calc(524px/2.5)] h-[calc(244px/3.5)] md:h-[calc(244px/2.5)] relative hover:scale-105 border-2 border-white cursor-pointer' key={item.imageUrl + index}
+                        <button disabled={spinning} className='rounded-lg w-[104px] md:w-[calc(100px*2)] h-[45px] md:h-[calc(45px*2)] relative hover:scale-105 cursor-pointer' key={item.imageUrl + index}
                             onClick={() => handleClick(item)}>
                             <Image
                                 alt="money"
                                 src={item.imageUrl}
                                 fill
                                 className="object-cover"
+                                unoptimized
                             />
                         </button>
                     ))}
