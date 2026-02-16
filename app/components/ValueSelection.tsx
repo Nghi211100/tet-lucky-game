@@ -54,10 +54,9 @@ const ValueSelection = ({ items,setItems, spinning }: { items: IItemSpin[],setIt
                             <Image
                                 alt="money"
                                 src={item.imageUrl}
-                                fill
+                                width={1120}
+                                height={570}
                                 className="object-cover"
-                                priority
-                                unoptimized
                             />
                         </button>
                     ))}

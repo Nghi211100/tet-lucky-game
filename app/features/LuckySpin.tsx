@@ -51,8 +51,8 @@ const LuckySpin = () => {
       <div className='lg:w-1/2'><SpinWheel items={items} setSpinning={setSpinning} spinning={spinning} /></div>
         <div className='lg:w-1/2 max-w-[280px] sm:max-w-[375px] md:max-w-[520px]'><ValueSelection items={items} setItems={setItem} spinning={spinning} /></div>
       </div>     
-      <div className={`absolute top-4 sm:top-8 md:top-11 left-5 md:left-10 h-10 w-10 md:h-14 md:w-14 bg-cover overflow-hidden cursor-pointer z-999 ${muted ? 'bg-[url("/assets/unmuted.svg")]' : 'bg-[url("/assets/sound.svg")]'}`} onClick={()=>muteBg()}></div>
-      <div className='absolute top-4 sm:top-8 md:top-11 right-5 md:right-10 h-10 w-10 md:h-14 md:w-14 bg-[url("/assets/note.svg")] bg-cover cursor-pointer z-999' onClick={()=>setOpenNote(!openNote)}></div>
+      <div className={`absolute top-4 sm:top-8 md:top-11 left-5 md:left-10 h-10 w-10 md:h-14 md:w-14 bg-cover overflow-hidden cursor-pointer z-999 ${muted ? 'bg-[url("/assets/unmuted.png")]' : 'bg-[url("/assets/muted.png")]'}`} onClick={()=>muteBg()}></div>
+      <div className='absolute top-4 sm:top-8 md:top-11 right-5 md:right-10 h-10 w-10 md:h-14 md:w-14 bg-[url("/assets/note.png")] bg-cover cursor-pointer z-999' onClick={()=>setOpenNote(!openNote)}></div>
       
       <Note openNote={openNote} setOpenNote={setOpenNote} muteBg={()=>muteBg(true)}/>
       

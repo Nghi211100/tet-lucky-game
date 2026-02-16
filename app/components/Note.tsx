@@ -48,7 +48,7 @@ const Note = ({openNote, setOpenNote, muteBg}: {openNote: boolean, setOpenNote: 
                     className='absolute cursor-pointer active:scale-95 -bottom-14 md:-bottom-24 left-1/2 transform -translate-x-1/2 w-10 h-10 md:w-14 md:h-14 z-10 hover:scale-105 transition-transform duration-200'
                 >
                     <Image 
-                        src="/assets/Button.svg" 
+                        src="/assets/close.png" 
                         alt="Close" 
                         fill
                         className="object-contain"

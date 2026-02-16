@@ -151,7 +151,7 @@ const Wheel = ({
         }}
       >
         <div className='relative h-full w-full'>
-          <Image src={"/assets/spin.svg"} alt='spin' fill objectFit='contain' unoptimized />
+          <Image src={"/assets/spin.png"} alt='spin' fill objectFit='contain' unoptimized />
         </div>
       </button>
       <div className='h-full bg-[url("/assets/wheel-v1.svg")] bg-contain bg-no-repeat absolute top-0 left-0 right-0 -z-10'>
