@@ -1,7 +1,11 @@
-import InstallPrompt from './components/installPrompt';
-import LuckySpin from './features/LuckySpin';
+'use client'
+
+import dynamic from 'next/dynamic'
+import LuckySpin from './features/LuckySpin'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+
+const InstallPrompt = dynamic(() => import('./components/installPrompt'), { ssr: false })
 
 export default function Home() {
   return (

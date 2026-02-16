@@ -1,12 +1,14 @@
 'use client'
 
 import { Dispatch, SetStateAction, useEffect, useMemo, useRef, useState } from 'react'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { IItemSpin } from '../features/LuckySpin'
 import { shuffleAvoidAdjacent } from '../help'
-import Fireworks from './Fireworks'
 import Wheel from './Wheel'
 import { toast } from 'react-toastify'
+
+const Fireworks = dynamic(() => import('./Fireworks'), { ssr: false })
 
 export function SpinWheel({
   items,
@@ -315,12 +317,14 @@ const handleSpinClick = () => {
                 className="object-contain max-w-[374px] max-h-[242px] sm:max-w-[520px] sm:max-h-[338px] md:max-w-[748px] md:max-h-[476px] flex-1"
                 width={374*5}
                 height={242*5}
+                priority
+                unoptimized
               />
             </div>
         </div>
       </div>
 
-      {showFireworks && <Fireworks show={showFireworks} fadeOut={fadeOut} />}
+      {/* {showFireworks && <Fireworks show={showFireworks} fadeOut={fadeOut} />} */}
     </>
   )
 }

@@ -85,6 +85,7 @@ const Wheel = ({
                         alt="reward"
                         fill
                         className="object-contain"
+                        loading="lazy"
                         unoptimized
                     />
                 </div>
@@ -124,7 +125,7 @@ const Wheel = ({
                 width: `${starSize}px`,
                 height: `${starSize}px`,
               }}>
-                <Image src={"/assets/star.svg"} alt='spin' fill objectFit='contain' unoptimized />
+                <Image src={"/assets/star.svg"} alt='spin' fill objectFit='contain' loading="lazy" unoptimized />
               </div>
             </div>
           )

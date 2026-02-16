@@ -56,6 +56,7 @@ const ValueSelection = ({ items,setItems, spinning }: { items: IItemSpin[],setIt
                                 src={item.imageUrl}
                                 fill
                                 className="object-cover"
+                                loading="lazy"
                                 unoptimized
                             />
                         </button>
