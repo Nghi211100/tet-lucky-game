@@ -323,7 +323,7 @@ const handleSpinClick = () => {
           <div className="relative flex-col flex items-center justify-center p-6 w-[374px] h-[242px] sm:w-[520px] sm:h-[338px] md:w-[748px] md:h-[476px] bg-[url('/assets/Modal.svg')] bg-cover bg-center bg-no-repeat">
             <p 
               className='text-sm sm:text-base md:text-xl text-[#C50101] text-center font-semibold mt-3! sm:mt-4! md:mt-6! -mb-2! sm:-mb-4!'
-              dangerouslySetInnerHTML={{ __html: wishMessage || 'Xuân sang phú quý gõ cửa,<br /> Tiền vô lũ lượt, buồn bã xin thưa.' }}
+              dangerouslySetInnerHTML={{ __html: wishMessage }}
             />
             <Image
                 alt="money"
