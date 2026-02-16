@@ -324,7 +324,7 @@ const handleSpinClick = () => {
         </div>
       </div>
 
-      {/* {showFireworks && <Fireworks show={showFireworks} fadeOut={fadeOut} />} */}
+      {showFireworks && <Fireworks show={showFireworks} fadeOut={fadeOut} />}
     </>
   )
 }
