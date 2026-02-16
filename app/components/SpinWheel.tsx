@@ -2,7 +2,6 @@
 
 import { Dispatch, SetStateAction, useEffect, useMemo, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
 import { IItemSpin } from '../features/LuckySpin'
 import { shuffleAvoidAdjacent } from '../help'
 import Wheel from './Wheel'
@@ -311,14 +310,13 @@ const handleSpinClick = () => {
         <div className="flex w-full h-full items-center justify-center">
           <div className="relative flex-col flex items-center justify-center p-6 w-[374px] h-[242px] sm:w-[520px] sm:h-[338px] md:w-[748px] md:h-[476px] bg-[url('/assets/Modal.svg')] bg-cover bg-center bg-no-repeat">
             <p className='text-sm sm:text-base md:text-xl text-[#C50101] text-center font-semibold mt-3! sm:mt-4! md:mt-6! -mb-2! sm:-mb-4!'>Xuân sang phú quý gõ cửa,<br /> Tiền vô lũ lượt, buồn bã xin thưa.</p>
-            <Image
+            <img
                 alt="money"
                 src={result?.imageUrl || '/'}
                 className="object-contain max-w-[374px] max-h-[242px] sm:max-w-[520px] sm:max-h-[338px] md:max-w-[748px] md:max-h-[476px] flex-1"
                 width={374*5}
                 height={242*5}
-                priority
-                unoptimized
+                loading="eager"
               />
             </div>
         </div>
