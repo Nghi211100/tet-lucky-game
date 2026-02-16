@@ -6,27 +6,27 @@ import { toast } from 'react-toastify'
 const selectionItems: IItemSpin[] = [
     {
         value: '500',
-        imageUrl: '/assets/500k.svg',
+        imageUrl: '/assets/500k.png',
     },
     {
         value: '200',
-        imageUrl: '/assets/200k.svg',
+        imageUrl: '/assets/200k.png',
     },
     {
         value: '100',
-        imageUrl: '/assets/100k.svg',
+        imageUrl: '/assets/100k.png',
     },
     {
         value: '50',
-        imageUrl: '/assets/50k.svg',
+        imageUrl: '/assets/50k.png',
     },
     {
         value: '20',
-        imageUrl: '/assets/20k.svg',
+        imageUrl: '/assets/20k.png',
     },
     {
         value: '10',
-        imageUrl: '/assets/10k.svg',
+        imageUrl: '/assets/10k.png',
     },
     // {
     //     value: '5',

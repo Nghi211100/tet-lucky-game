@@ -9,7 +9,7 @@ const InstallPrompt = dynamic(() => import('./components/installPrompt'), { ssr:
 
 export default function Home() {
   return (
-    <div className="flex max-w-[100vw] overflow-x-hidden overscroll-x-none min-h-screen bg-[url('/assets/background.png')] md:bg-[url('/assets/background.jpg')] bg-cover bg-bottom bg-fixed pb-6"> 
+    <div className="flex max-w-[100vw] overflow-x-hidden overscroll-x-none min-h-screen bg-[url('/assets/mobile-background.png')] md:bg-[url('/assets/desktop-background.png')] bg-cover bg-bottom bg-fixed pb-6"> 
         <InstallPrompt />
         <LuckySpin />
         <ToastContainer
