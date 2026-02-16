@@ -28,6 +28,7 @@ export function SpinWheel({
   const [currentRotation, setCurrentRotation] = useState(0)
   const [isOpenResult, setIsOpenResult] = useState(false)
   const [result, setResult] = useState<IItemSpin | null>(null)
+  const [wishMessage, setWishMessage] = useState('')
   const [shuffleItems, setShuffleItems] = useState<IItemSpin[]>(() =>
     shuffleAvoidAdjacent(items)
   )
@@ -156,9 +157,19 @@ export function SpinWheel({
     if (navigator.vibrate) navigator.vibrate([30, 20, 30])
 
     setTimeout(() => {
+      const wishes = [
+        'Xuân sang phú quý gõ cửa,<br /> Tiền vô lũ lượt, buồn bã xin thưa.',
+        'Năm mới chúc bạn phát tài,<br /> Ăn không tăng ký, tiền dài thêm ra.',
+        'Mai vàng trước ngõ đơm hoa,<br /> Lộc bay tứ phía, việc nhà nhẹ tênh.',
+        'Tết về pháo nổ tưng bừng,<br /> Lương tăng đều đặn, tình đừng giảm đi.',
+        'Đầu năm ví mỏng tí ti,<br /> Cuối năm dày cộm, cười khì khì vui.',
+        'Xuân này chúc bạn thảnh thơi,<br /> Deadline né hết, tiền rơi trúng nhà.'
+      ]
       
       const newResult = shuffleItems[index]
+      const randomWish = wishes[Math.floor(Math.random() * wishes.length)]
       setResult(newResult)
+      setWishMessage(randomWish)
       setIsOpenResult(true)
 
       setFadeOut(false)
@@ -310,7 +321,10 @@ const handleSpinClick = () => {
       >
         <div className="flex w-full h-full items-center justify-center">
           <div className="relative flex-col flex items-center justify-center p-6 w-[374px] h-[242px] sm:w-[520px] sm:h-[338px] md:w-[748px] md:h-[476px] bg-[url('/assets/Modal.svg')] bg-cover bg-center bg-no-repeat">
-            <p className='text-sm sm:text-base md:text-xl text-[#C50101] text-center font-semibold mt-3! sm:mt-4! md:mt-6! -mb-2! sm:-mb-4!'>Xuân sang phú quý gõ cửa,<br /> Tiền vô lũ lượt, buồn bã xin thưa.</p>
+            <p 
+              className='text-sm sm:text-base md:text-xl text-[#C50101] text-center font-semibold mt-3! sm:mt-4! md:mt-6! -mb-2! sm:-mb-4!'
+              dangerouslySetInnerHTML={{ __html: wishMessage || 'Xuân sang phú quý gõ cửa,<br /> Tiền vô lũ lượt, buồn bã xin thưa.' }}
+            />
             <Image
                 alt="money"
                 src={result?.imageUrl || '/'}
