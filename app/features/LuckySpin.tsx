@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { SpinWheel } from '../components/SpinWheel'
 import ValueSelection from '../components/ValueSelection'
 import Note from '../components/Note'
+import ImagePreloader from '../components/ImagePreloader'
 
 export type IItemSpin = {
   value: string
@@ -44,6 +45,7 @@ const LuckySpin = () => {
   
   return (
     <div className={`w-full py-4 sm:py-0 md:py-6 px-4 sm:px-6 md:px-8 relative z-0 ${openNote&&'h-screen overflow-hidden'}`}>
+      <ImagePreloader />
       <h1 className='pt-1 sm:pt-6 md:pt-0 text-center text-3xl sm:text-4xl md:text-7xl font-black bg-cover bg-center text-transparent  bg-clip-text bg-radial from-yellow-300 to-orange-400 text-shadow-2xs leading-[1.19]'>Vòng Quay Lì Xì</h1>
       <div className='flex flex-col lg:flex-row space-y-6 mt-6 md:mt-16 justify-center items-center'>
       <div className='lg:w-1/2'><SpinWheel items={items} setSpinning={setSpinning} spinning={spinning} /></div>
